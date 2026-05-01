@@ -179,16 +179,13 @@ This project was part of Smart India Hackathon 2025 and involved both hardware i
 
 ---
 
+
+
 ## 💻 Web Dashboard Code
 
-The frontend for the dashboard is included in the repository.
+The web dashboard is implemented using HTML, CSS, and JavaScript in a single file.
 
 Location:
-web_dashboard/
+web_dashboard/index.html
 
-Technologies:
-- HTML
-- CSS
-- JavaScript
-
-This dashboard is designed to visualize sensor data in a clean and user-friendly way.
+It provides a clean interface for monitoring sensor data, alerts, and environmental conditions.

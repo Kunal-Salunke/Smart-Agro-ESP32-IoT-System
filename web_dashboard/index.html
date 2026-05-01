@@ -1,0 +1,1357 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>ElectroMinds FarmSmart — Manipur</title>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;600;700;800&family=Nunito:wght@400;600;700&display=swap" rel="stylesheet"/>
+<style>
+:root{--gd:#1a3d1f;--gm:#2d6a31;--gb:#4caf50;--gl:#a8d5aa;--gold:#f9a825;--red:#c62828;--white:#fafff8;--cb:rgba(255,255,255,0.96);--td:#1a2e1b;--tm:#3e5940;--bdr:rgba(76,175,80,0.18);--sh:0 4px 24px rgba(26,61,31,0.13);}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{font-family:'Nunito',sans-serif;background:var(--gd);color:var(--td);min-height:100vh;overflow-x:hidden;}
+body::before{content:'';position:fixed;top:0;left:0;right:0;bottom:0;background:radial-gradient(ellipse at 10% 20%,rgba(76,175,80,0.13) 0%,transparent 60%),radial-gradient(ellipse at 85% 80%,rgba(249,168,37,0.08) 0%,transparent 50%);pointer-events:none;z-index:0;}
+
+/* SIDEBAR */
+.sidebar{position:fixed;left:0;top:0;bottom:0;width:72px;background:linear-gradient(180deg,#0f2412 0%,#1a3d1f 100%);display:flex;flex-direction:column;align-items:center;padding:20px 0;z-index:100;border-right:1px solid rgba(76,175,80,0.15);gap:6px;}
+.sidebar-logo{width:44px;height:44px;background:var(--gb);border-radius:12px;display:flex;align-items:center;justify-content:center;margin-bottom:18px;font-size:22px;box-shadow:0 0 18px rgba(76,175,80,0.35);}
+.nav-item{width:48px;height:48px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:20px;cursor:pointer;transition:all 0.2s;color:rgba(255,255,255,0.45);position:relative;}
+.nav-item:hover,.nav-item.active{background:rgba(76,175,80,0.2);color:var(--gb);}
+.nav-item.active::before{content:'';position:absolute;left:-1px;width:3px;height:28px;background:var(--gb);border-radius:0 3px 3px 0;}
+.nav-tooltip{position:absolute;left:60px;background:var(--gd);color:#fff;font-size:12px;font-weight:600;padding:4px 10px;border-radius:6px;white-space:nowrap;opacity:0;pointer-events:none;transition:opacity 0.2s;border:1px solid rgba(76,175,80,0.2);}
+.nav-item:hover .nav-tooltip{opacity:1;}
+
+/* MAIN */
+.main{margin-left:72px;min-height:100vh;padding:0;position:relative;z-index:1;}
+
+/* TOPBAR */
+.topbar{background:rgba(15,36,18,0.96);backdrop-filter:blur(12px);padding:12px 24px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid rgba(76,175,80,0.15);position:sticky;top:0;z-index:50;}
+.topbar-left h1{font-family:'Baloo 2',cursive;font-size:19px;font-weight:800;color:var(--gb);}
+.topbar-left p{font-size:11px;color:rgba(255,255,255,0.4);margin-top:1px;}
+.topbar-right{display:flex;align-items:center;gap:10px;}
+.lang-btn,.audio-btn,.blynk-btn{border-radius:20px;font-size:12px;font-weight:700;cursor:pointer;padding:5px 12px;transition:all 0.2s;font-family:'Nunito',sans-serif;}
+.lang-btn{background:rgba(76,175,80,0.15);border:1px solid rgba(76,175,80,0.25);color:var(--gl);}
+.audio-btn{background:rgba(249,168,37,0.15);border:1px solid rgba(249,168,37,0.3);color:var(--gold);display:flex;align-items:center;gap:5px;}
+.blynk-btn{background:rgba(0,186,255,0.15);border:1px solid rgba(0,186,255,0.3);color:#00baff;display:flex;align-items:center;gap:5px;}
+.blynk-dot{width:7px;height:7px;background:#00baff;border-radius:50%;animation:pulse 1.5s infinite;}
+.weather-pill{background:rgba(249,168,37,0.12);border:1px solid rgba(249,168,37,0.25);color:var(--gold);padding:5px 12px;border-radius:20px;font-size:13px;font-weight:700;display:flex;align-items:center;gap:5px;}
+.avatar{width:34px;height:34px;background:linear-gradient(135deg,var(--gm),var(--gb));border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:15px;}
+
+/* PAGES */
+.page{display:none;padding:22px 26px;animation:fadeIn 0.3s ease;}
+.page.active{display:block;}
+@keyframes fadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+
+/* GREETING */
+.greeting-banner{background:linear-gradient(135deg,var(--gm) 0%,#1b4d1f 100%);border-radius:18px;padding:20px 26px;margin-bottom:22px;display:flex;align-items:center;justify-content:space-between;border:1px solid rgba(76,175,80,0.2);box-shadow:var(--sh);overflow:hidden;position:relative;}
+.greeting-banner::after{content:'🌾';position:absolute;right:100px;top:-10px;font-size:80px;opacity:0.07;}
+.greeting-banner h2{font-family:'Baloo 2',cursive;font-size:21px;font-weight:800;color:#fff;}
+.greeting-banner p{color:var(--gl);font-size:13px;margin-top:4px;}
+.gstat{text-align:center;}
+.gstat-val{font-family:'Baloo 2',cursive;font-size:25px;font-weight:800;color:var(--gold);display:block;}
+.gstat-label{font-size:11px;color:rgba(255,255,255,0.6);}
+
+/* GRIDS */
+.grid-4{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:18px;}
+.grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-bottom:18px;}
+.grid-2{display:grid;grid-template-columns:repeat(2,1fr);gap:14px;margin-bottom:18px;}
+.grid-main{display:grid;grid-template-columns:2fr 1fr;gap:14px;margin-bottom:18px;}
+
+/* CARDS */
+.card{background:var(--cb);border-radius:16px;padding:16px 18px;border:1px solid var(--bdr);box-shadow:var(--sh);transition:transform 0.2s,box-shadow 0.2s;}
+.card:hover{transform:translateY(-2px);box-shadow:0 8px 28px rgba(26,61,31,0.16);}
+.card-title{font-size:11px;font-weight:700;color:var(--tm);text-transform:uppercase;letter-spacing:0.7px;margin-bottom:10px;display:flex;align-items:center;gap:6px;}
+
+/* OPAQUE ALERT CARDS */
+.alert-card{border-radius:14px;padding:14px 16px;margin-bottom:10px;font-size:13px;font-weight:600;display:flex;align-items:flex-start;gap:10px;box-shadow:0 2px 12px rgba(0,0,0,0.08);}
+.alert-card .ai{font-size:18px;flex-shrink:0;margin-top:1px;}
+.alert-card strong{display:block;margin-bottom:3px;font-size:13px;}
+.alert-card p{font-size:12px;font-weight:400;line-height:1.5;margin:0;}
+.ac-warn{background:#fff8e1;border:1.5px solid #f9a825;color:#5d3a00;}
+.ac-good{background:#e8f5e9;border:1.5px solid #4caf50;color:#1b4d1f;}
+.ac-bad{background:#ffebee;border:1.5px solid #ef5350;color:#7f0000;}
+.ac-info{background:#e3f2fd;border:1.5px solid #29b6f6;color:#003060;}
+
+/* SENSOR CARDS */
+.sensor-card{background:var(--cb);border-radius:16px;padding:14px 16px;border:1px solid var(--bdr);box-shadow:var(--sh);position:relative;overflow:hidden;}
+.sensor-icon{font-size:26px;margin-bottom:6px;}
+.sensor-val{font-family:'Baloo 2',cursive;font-size:28px;font-weight:800;color:var(--td);}
+.sensor-unit{font-size:13px;color:var(--tm);font-weight:600;}
+.sensor-label{font-size:11px;color:var(--tm);margin-top:3px;font-weight:700;text-transform:uppercase;letter-spacing:0.5px;}
+.sensor-status{position:absolute;top:12px;right:12px;padding:3px 9px;border-radius:20px;font-size:10px;font-weight:700;}
+.status-good{background:rgba(76,175,80,0.15);color:#2e7d32;}
+.status-warn{background:rgba(249,168,37,0.15);color:#e65100;}
+.status-bad{background:rgba(198,40,40,0.12);color:#c62828;}
+
+/* PROGRESS */
+.progress-wrap{margin:6px 0;}
+.progress-label{display:flex;justify-content:space-between;font-size:11px;font-weight:600;color:var(--tm);margin-bottom:3px;}
+.progress-bar{height:7px;background:rgba(76,175,80,0.1);border-radius:6px;overflow:hidden;}
+.progress-fill{height:100%;border-radius:6px;transition:width 0.9s ease;}
+.fill-green{background:linear-gradient(90deg,#4caf50,#81c784);}
+.fill-gold{background:linear-gradient(90deg,#f9a825,#ffd54f);}
+.fill-red{background:linear-gradient(90deg,#ef5350,#e57373);}
+.fill-blue{background:linear-gradient(90deg,#29b6f6,#81d4fa);}
+
+/* SECTION HEADER */
+.section-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;}
+.section-title{font-family:'Baloo 2',cursive;font-size:17px;font-weight:800;color:#fff;display:flex;align-items:center;gap:8px;}
+.see-all{font-size:12px;font-weight:700;color:var(--gb);cursor:pointer;opacity:0.8;}
+
+/* WEATHER */
+.weather-widget{background:linear-gradient(135deg,#1565c0,#0277bd);border-radius:16px;padding:18px;color:#fff;border:1px solid rgba(255,255,255,0.1);box-shadow:var(--sh);}
+.weather-main{display:flex;align-items:center;gap:12px;margin-bottom:14px;}
+.weather-temp{font-family:'Baloo 2',cursive;font-size:46px;font-weight:800;line-height:1;}
+.weather-desc{font-size:13px;opacity:0.8;margin-top:3px;}
+.weather-details{display:grid;grid-template-columns:1fr 1fr;gap:7px;}
+.w-detail{background:rgba(255,255,255,0.1);border-radius:10px;padding:7px 10px;font-size:11px;}
+.w-detail span{display:block;font-weight:700;font-size:14px;margin-top:2px;}
+.forecast{display:flex;gap:7px;margin-top:12px;}
+.forecast-day{flex:1;background:rgba(255,255,255,0.1);border-radius:10px;padding:7px 3px;text-align:center;font-size:10px;}
+.forecast-day .f-temp{font-weight:800;font-size:13px;display:block;margin-top:3px;}
+
+/* AI INSIGHT BLOCKS — OPAQUE */
+.ai-insight{background:#fff;border-radius:14px;padding:15px 17px;margin-bottom:12px;border-left:4px solid var(--gb);box-shadow:0 2px 10px rgba(26,61,31,0.1);}
+.ai-insight-header{display:flex;align-items:center;gap:8px;margin-bottom:7px;}
+.ai-insight-header h4{font-size:14px;font-weight:700;color:var(--td);}
+.ai-badge{background:var(--gb);color:#fff;font-size:10px;font-weight:800;padding:2px 7px;border-radius:6px;}
+.ai-insight p{font-size:12px;color:var(--tm);line-height:1.6;}
+
+/* PUMP */
+.pump-control{display:flex;align-items:center;justify-content:space-between;background:rgba(76,175,80,0.06);border-radius:12px;padding:11px 14px;border:1px solid rgba(76,175,80,0.14);margin-bottom:9px;}
+.pump-info{font-size:13px;font-weight:600;color:var(--td);}
+.pump-info small{display:block;font-size:10px;color:var(--tm);font-weight:400;margin-top:2px;}
+.toggle{width:48px;height:25px;background:#ddd;border-radius:13px;cursor:pointer;position:relative;transition:background 0.3s;border:none;}
+.toggle.on{background:var(--gb);}
+.toggle::after{content:'';position:absolute;top:3px;left:3px;width:19px;height:19px;background:#fff;border-radius:50%;transition:left 0.3s;box-shadow:0 1px 4px rgba(0,0,0,0.2);}
+.toggle.on::after{left:26px;}
+
+/* BLYNK STATUS */
+.blynk-status-bar{background:rgba(0,186,255,0.08);border:1px solid rgba(0,186,255,0.2);border-radius:12px;padding:10px 14px;display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;}
+.blynk-status-left{display:flex;align-items:center;gap:8px;font-size:13px;font-weight:700;color:#0097a7;}
+.blynk-status-right{font-size:11px;color:var(--tm);}
+
+/* CROP CARDS */
+.crop-card{background:var(--cb);border-radius:16px;overflow:hidden;border:1px solid var(--bdr);box-shadow:var(--sh);transition:transform 0.2s;}
+.crop-card:hover{transform:translateY(-3px);}
+.crop-header{padding:13px 15px;display:flex;align-items:center;gap:10px;}
+.crop-emoji{font-size:30px;}
+.crop-name{font-family:'Baloo 2',cursive;font-size:15px;font-weight:700;color:var(--td);}
+.crop-sub{font-size:11px;color:var(--tm);}
+.crop-body{padding:0 15px 13px;}
+.crop-stage{display:inline-block;background:rgba(76,175,80,0.12);color:var(--gm);font-size:10px;font-weight:700;padding:3px 10px;border-radius:20px;text-transform:uppercase;letter-spacing:0.5px;margin-bottom:8px;}
+
+/* BADGE */
+.badge{display:inline-flex;align-items:center;gap:4px;font-size:10px;font-weight:700;padding:3px 9px;border-radius:20px;}
+.badge-green{background:rgba(76,175,80,0.13);color:#2e7d32;}
+.badge-gold{background:rgba(249,168,37,0.14);color:#e65100;}
+.badge-red{background:rgba(198,40,40,0.1);color:#c62828;}
+.badge-blue{background:rgba(41,182,246,0.14);color:#0277bd;}
+
+/* MARKET TABLE */
+.market-table{width:100%;border-collapse:collapse;font-size:13px;}
+.market-table th{text-align:left;padding:9px 12px;background:rgba(76,175,80,0.08);font-size:10px;font-weight:700;color:var(--tm);text-transform:uppercase;letter-spacing:0.5px;}
+.market-table td{padding:9px 12px;border-bottom:1px solid rgba(76,175,80,0.07);font-weight:600;color:var(--td);}
+.market-table tr:hover td{background:rgba(76,175,80,0.03);}
+.price-up{color:#2e7d32;}.price-down{color:#c62828;}
+
+/* DRONE */
+.drone-status{background:linear-gradient(135deg,#0f2412,#1a3d1f);border-radius:16px;padding:18px;color:#fff;border:1px solid rgba(76,175,80,0.2);box-shadow:var(--sh);}
+.drone-title{font-family:'Baloo 2',cursive;font-size:15px;font-weight:700;color:var(--gb);margin-bottom:12px;display:flex;align-items:center;gap:8px;}
+.drone-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;}
+.drone-item{background:rgba(76,175,80,0.1);border-radius:10px;padding:9px 11px;}
+.drone-item label{font-size:10px;color:rgba(255,255,255,0.5);text-transform:uppercase;letter-spacing:0.5px;}
+.drone-item span{display:block;font-size:14px;font-weight:700;color:#fff;margin-top:2px;}
+.drone-pulse{width:9px;height:9px;background:#4caf50;border-radius:50%;display:inline-block;animation:dpulse 1.5s infinite;}
+@keyframes dpulse{0%,100%{box-shadow:0 0 0 0 rgba(76,175,80,0.5);}50%{box-shadow:0 0 0 6px rgba(76,175,80,0);}}
+
+/* SENSOR MODULE */
+.sensor-module{background:var(--cb);border-radius:14px;padding:14px;border:1px solid var(--bdr);box-shadow:var(--sh);}
+.sensor-module-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;}
+.sensor-module-name{font-weight:700;font-size:13px;color:var(--td);display:flex;align-items:center;gap:7px;}
+.attach-btn{font-size:11px;font-weight:700;padding:5px 12px;border-radius:20px;cursor:pointer;border:none;transition:all 0.2s;font-family:'Nunito',sans-serif;}
+.attach-btn.attached{background:rgba(198,40,40,0.1);color:#c62828;}
+.attach-btn.detached{background:rgba(76,175,80,0.15);color:#2e7d32;}
+.sensor-module-reading{font-size:12px;color:var(--tm);margin-top:4px;}
+
+/* CHAT */
+.chat-wrap{background:var(--cb);border-radius:16px;border:1px solid var(--bdr);box-shadow:var(--sh);overflow:hidden;}
+.chat-header{background:var(--gd);padding:13px 16px;display:flex;align-items:center;gap:9px;}
+.chat-header h3{color:var(--gb);font-family:'Baloo 2',cursive;font-size:15px;}
+.chat-messages{height:290px;overflow-y:auto;padding:14px;display:flex;flex-direction:column;gap:9px;background:#f1f8f1;}
+.msg{max-width:82%;padding:9px 13px;border-radius:14px;font-size:13px;line-height:1.5;}
+.msg-bot{background:#fff;border:1px solid var(--bdr);color:var(--td);align-self:flex-start;border-radius:4px 14px 14px 14px;}
+.msg-user{background:var(--gm);color:#fff;align-self:flex-end;border-radius:14px 4px 14px 14px;}
+.chat-input-row{display:flex;padding:10px;gap:8px;border-top:1px solid var(--bdr);}
+.chat-input{flex:1;border:1px solid var(--bdr);border-radius:22px;padding:8px 14px;font-size:13px;font-family:'Nunito',sans-serif;outline:none;color:var(--td);}
+.chat-input:focus{border-color:var(--gb);}
+.chat-send{background:var(--gb);color:#fff;border:none;border-radius:22px;padding:8px 18px;font-weight:700;font-size:13px;cursor:pointer;font-family:'Nunito',sans-serif;}
+.quick-btns{display:flex;gap:7px;flex-wrap:wrap;padding:0 14px 10px;}
+.q-btn{background:rgba(76,175,80,0.1);border:1px solid rgba(76,175,80,0.2);color:var(--gm);font-size:11px;font-weight:600;padding:5px 11px;border-radius:20px;cursor:pointer;transition:all 0.2s;font-family:'Nunito',sans-serif;}
+.q-btn:hover{background:var(--gb);color:#fff;}
+
+/* BUTTONS */
+.btn-primary{background:var(--gb);color:#fff;border:none;padding:9px 18px;border-radius:10px;font-weight:700;font-size:13px;cursor:pointer;transition:all 0.2s;font-family:'Nunito',sans-serif;}
+.btn-primary:hover{background:var(--gm);transform:translateY(-1px);}
+.btn-outline{background:transparent;color:var(--gb);border:1.5px solid var(--gb);padding:8px 16px;border-radius:10px;font-weight:700;font-size:13px;cursor:pointer;transition:all 0.2s;font-family:'Nunito',sans-serif;}
+.btn-outline:hover{background:rgba(76,175,80,0.08);}
+.btn-blynk{background:rgba(0,186,255,0.12);color:#0097a7;border:1.5px solid rgba(0,186,255,0.35);padding:8px 16px;border-radius:10px;font-weight:700;font-size:12px;cursor:pointer;transition:all 0.2s;font-family:'Nunito',sans-serif;}
+.btn-blynk:hover{background:rgba(0,186,255,0.22);}
+
+/* RAIN */
+.rain-row{display:flex;align-items:center;justify-content:space-between;padding:9px 0;border-bottom:1px solid rgba(76,175,80,0.07);}
+.rain-row:last-child{border-bottom:none;}
+.rain-date{font-size:12px;font-weight:600;color:var(--tm);width:80px;}
+.rain-bar-wrap{flex:1;margin:0 10px;}
+.rain-val{font-size:13px;font-weight:700;color:var(--td);width:55px;text-align:right;}
+
+/* MINI CHART */
+.mini-chart{position:relative;height:56px;display:flex;align-items:flex-end;gap:4px;padding-top:4px;}
+.bar{flex:1;background:rgba(76,175,80,0.18);border-radius:4px 4px 0 0;transition:background 0.2s;min-height:3px;cursor:pointer;}
+.bar:hover,.bar.today{background:var(--gb);}
+
+/* SPINNER */
+.loading{display:flex;align-items:center;gap:8px;color:rgba(100,130,100,0.7);font-size:12px;padding:16px;justify-content:center;}
+.spinner{width:16px;height:16px;border:2px solid rgba(76,175,80,0.25);border-top-color:var(--gb);border-radius:50%;animation:spin 0.8s linear infinite;}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+/* SCHEME */
+.scheme-card{background:var(--cb);border-radius:14px;padding:14px 16px;border:1px solid var(--bdr);margin-bottom:9px;display:flex;align-items:flex-start;gap:13px;box-shadow:var(--sh);transition:transform 0.2s;}
+.scheme-card:hover{transform:translateX(4px);}
+.scheme-icon{width:42px;height:42px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0;}
+.scheme-title{font-size:13px;font-weight:700;color:var(--td);}
+.scheme-desc{font-size:11px;color:var(--tm);margin-top:3px;line-height:1.45;}
+.scheme-tag{display:inline-block;background:rgba(76,175,80,0.12);color:var(--gm);font-size:10px;font-weight:700;padding:2px 8px;border-radius:10px;margin-top:5px;}
+
+/* MODAL */
+.modal-overlay{position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.55);z-index:500;display:none;align-items:center;justify-content:center;}
+.modal-overlay.open{display:flex;}
+.modal{background:#fff;border-radius:20px;padding:28px;max-width:500px;width:90%;box-shadow:0 20px 60px rgba(0,0,0,0.25);max-height:90vh;overflow-y:auto;}
+.modal h3{font-family:'Baloo 2',cursive;font-size:20px;font-weight:800;color:var(--td);margin-bottom:18px;}
+.modal label{font-size:12px;font-weight:700;color:var(--tm);display:block;margin-bottom:5px;margin-top:13px;}
+.modal input,.modal select,.modal textarea{width:100%;padding:9px 12px;border-radius:10px;border:1.5px solid var(--bdr);font-family:'Nunito',sans-serif;font-size:13px;color:var(--td);outline:none;}
+.modal input:focus,.modal select:focus,.modal textarea:focus{border-color:var(--gb);}
+.modal-btns{display:flex;gap:10px;margin-top:20px;justify-content:flex-end;}
+.modal-close{position:absolute;top:14px;right:18px;background:none;border:none;font-size:22px;cursor:pointer;color:var(--tm);}
+
+/* MARKET LIVE */
+.price-ticker{display:flex;align-items:center;gap:7px;}
+.price-change{font-size:12px;font-weight:700;padding:2px 7px;border-radius:8px;}
+.up{background:#e8f5e9;color:#2e7d32;}.down{background:#ffebee;color:#c62828;}
+
+@media(max-width:900px){.grid-4{grid-template-columns:repeat(2,1fr)}.grid-3{grid-template-columns:repeat(2,1fr)}.grid-main{grid-template-columns:1fr}}
+@media(max-width:600px){.main{margin-left:0}.sidebar{display:none}.grid-4,.grid-3,.grid-2{grid-template-columns:1fr}.greeting-banner .greeting-stats{display:none}.topbar{padding:9px 14px}.page{padding:14px}}
+</style>
+</head>
+<body>
+<!-- SIDEBAR -->
+<nav class="sidebar">
+  <div class="sidebar-logo">🌱</div>
+  <div class="nav-item active" onclick="showPage('dashboard',this)">🏡<span class="nav-tooltip">Dashboard</span></div>
+  <div class="nav-item" onclick="showPage('crops',this)">🌾<span class="nav-tooltip">My Crops</span></div>
+  <div class="nav-item" onclick="showPage('irrigation',this)">💧<span class="nav-tooltip">Irrigation</span></div>
+  <div class="nav-item" onclick="showPage('weather',this)">🌦️<span class="nav-tooltip">Weather</span></div>
+  <div class="nav-item" onclick="showPage('market',this)">📊<span class="nav-tooltip">Market</span></div>
+  <div class="nav-item" onclick="showPage('schemes',this)">🏛️<span class="nav-tooltip">Schemes</span></div>
+  <div class="nav-item" onclick="showPage('aiassist',this)">🤖<span class="nav-tooltip">AI Advisor</span></div>
+  <div class="nav-item" onclick="showPage('drone',this)">🚁<span class="nav-tooltip">Drone</span></div>
+</nav>
+
+<div class="main">
+<!-- TOPBAR -->
+<div class="topbar">
+  <div class="topbar-left">
+    <h1>ElectroMinds FarmSmart</h1>
+    <p id="topbar-date">Loading...</p>
+  </div>
+  <div class="topbar-right">
+    <button class="blynk-btn" onclick="openBlynkPanel()"><div class="blynk-dot"></div> <span id="blynk-status-txt">Blynk</span></button>
+    <button class="lang-btn" id="lang-toggle-btn" onclick="toggleLang()">🇮🇳 English</button>
+    <button class="audio-btn" id="audio-btn" onclick="readPageAloud()">🔊 <span id="audio-btn-label">Listen</span></button>
+    <div class="weather-pill">🌤️ <span id="topbar-temp">24°C</span></div>
+    <div class="avatar">👨‍🌾</div>
+  </div>
+</div>
+
+<!-- ============ DASHBOARD ============ -->
+<div id="page-dashboard" class="page active">
+  <div class="greeting-banner">
+    <div>
+      <h2 id="txt-greeting">🙏 Khurumjari, Farmer Ibungo!</h2>
+      <p id="txt-greeting-sub">Your fields are looking healthy today. Check below for today's updates.</p>
+    </div>
+    <div style="display:flex;align-items:center;gap:18px">
+      <button onclick="readText('greeting')" style="background:rgba(255,255,255,0.15);border:none;color:#fff;font-size:18px;cursor:pointer;border-radius:50%;width:34px;height:34px;display:flex;align-items:center;justify-content:center;">🔊</button>
+      <div style="display:flex;gap:22px">
+        <div class="gstat"><span class="gstat-val" id="dash-crop-count">3</span><span class="gstat-label" data-en="Active Crops" data-mni="চাউখৎলিবা পাম্বী">Active Crops</span></div>
+        <div class="gstat"><span class="gstat-val" id="soil-pct">61%</span><span class="gstat-label" data-en="Soil Moisture" data-mni="মপু লাংথ্রোই">Soil Moisture</span></div>
+        <div class="gstat"><span class="gstat-val" style="color:#4caf50" id="drone-status-val">✓ OK</span><span class="gstat-label" data-en="Drone" data-mni="ড্রোন">Drone</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SENSORS -->
+  <div class="section-header">
+    <div class="section-title">📡 <span data-en="Live Sensor Data" data-mni="লাইব সেন্সর ডেটা">Live Sensor Data</span></div>
+    <div class="see-all">⟳ Auto-refresh 30s</div>
+  </div>
+  <div class="grid-4">
+    <div class="sensor-card"><div class="sensor-status status-good" id="ss-moisture">Good</div><div class="sensor-icon">💧</div><div><span class="sensor-val" id="s-moisture">61</span><span class="sensor-unit">%</span></div><div class="sensor-label" data-en="Soil Moisture" data-mni="মপু লাংথ্রোই">Soil Moisture</div><div class="progress-wrap" style="margin-top:7px"><div class="progress-bar"><div class="progress-fill fill-blue" id="bar-moisture" style="width:61%"></div></div></div></div>
+    <div class="sensor-card"><div class="sensor-status status-good">Normal</div><div class="sensor-icon">🌡️</div><div><span class="sensor-val" id="s-temp">24</span><span class="sensor-unit">°C</span></div><div class="sensor-label" data-en="Temperature" data-mni="উষ্ণতা">Temperature</div><div class="progress-wrap" style="margin-top:7px"><div class="progress-bar"><div class="progress-fill fill-gold" id="bar-temp" style="width:48%"></div></div></div></div>
+    <div class="sensor-card"><div class="sensor-status status-warn" id="ss-ph">Monitor</div><div class="sensor-icon">🌿</div><div><span class="sensor-val" id="s-ph">6.2</span><span class="sensor-unit">pH</span></div><div class="sensor-label" data-en="Soil pH" data-mni="মপু pH">Soil pH</div><div class="progress-wrap" style="margin-top:7px"><div class="progress-bar"><div class="progress-fill fill-green" id="bar-ph" style="width:62%"></div></div></div></div>
+    <div class="sensor-card"><div class="sensor-status status-good">Active</div><div class="sensor-icon">☁️</div><div><span class="sensor-val" id="s-humid">72</span><span class="sensor-unit">%</span></div><div class="sensor-label" data-en="Humidity" data-mni="লাংথ্রোই">Humidity</div><div class="progress-wrap" style="margin-top:7px"><div class="progress-bar"><div class="progress-fill fill-blue" id="bar-humid" style="width:72%"></div></div></div></div>
+  </div>
+
+  <!-- ALERTS + WEATHER -->
+  <div class="grid-main">
+    <div>
+      <div class="section-header">
+        <div class="section-title">🔔 <span data-en="Smart Alerts" data-mni="স্মার্ট এলার্ট">Smart Alerts</span></div>
+        <button onclick="readText('alerts')" style="background:rgba(76,175,80,0.15);border:1px solid rgba(76,175,80,0.25);color:var(--gb);padding:4px 11px;border-radius:20px;font-size:11px;font-weight:700;cursor:pointer;">🔊</button>
+      </div>
+      <div class="alert-card ac-warn"><div class="ai">⚠️</div><div><strong id="a1t">Irrigation Needed Soon</strong><p id="a1b">Soil moisture dropping below 55%. Consider activating Pump 2 in Plot B within 4 hours.</p></div></div>
+      <div class="alert-card ac-good"><div class="ai">✅</div><div><strong id="a2t">Cardamom Health — Excellent</strong><p id="a2b">NDVI index is high. No pest threats detected by drone scan this morning.</p></div></div>
+      <div class="alert-card ac-bad"><div class="ai">🌧️</div><div><strong id="a3t">Rain Alert This Week</strong><p id="a3b">Heavy rain predicted. Delay fertilizer application. Secure terrace embankments.</p></div></div>
+      <div class="alert-card ac-info"><div class="ai">💡</div><div><strong id="a4t">AI Tip</strong><p id="a4b">Soil pH at 6.2. Adding lime (0.5kg/plot) could improve yield by up to 12% this season.</p></div></div>
+    </div>
+    <div>
+      <div class="section-header"><div class="section-title">🌦️ <span data-en="Today's Weather" data-mni="অহানবা নুমিৎ লৌআং">Today's Weather</span></div></div>
+      <div class="weather-widget">
+        <div class="weather-main"><div style="font-size:46px">⛅</div><div><div class="weather-temp" id="w-temp">24°C</div><div class="weather-desc" id="w-desc">Partly Cloudy · Imphal</div></div></div>
+        <div class="weather-details">
+          <div class="w-detail">💨 Wind<span id="w-wind">12 km/h NE</span></div>
+          <div class="w-detail">🌧️ Rain<span id="w-rain">—</span></div>
+          <div class="w-detail">☀️ UV<span>Moderate</span></div>
+          <div class="w-detail">💧 Humidity<span id="w-humid">72%</span></div>
+        </div>
+        <div class="forecast" id="w-forecast">
+          <div class="forecast-day">Mon<div>🌧️</div><span class="f-temp">21°</span></div>
+          <div class="forecast-day">Tue<div>⛅</div><span class="f-temp">23°</span></div>
+          <div class="forecast-day">Wed<div>☀️</div><span class="f-temp">26°</span></div>
+          <div class="forecast-day">Thu<div>🌤️</div><span class="f-temp">25°</span></div>
+          <div class="forecast-day">Fri<div>🌦️</div><span class="f-temp">22°</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- AI INSIGHTS — OPAQUE -->
+  <div class="section-header">
+    <div class="section-title">🤖 <span data-en="AI Insights for Your Farm" data-mni="AI ইনসাইট — নহাক্কী খোঙথাং">AI Insights for Your Farm</span></div>
+  </div>
+  <div class="grid-3">
+    <div class="ai-insight"><div class="ai-insight-header"><span style="font-size:20px">🌱</span><h4 id="ins1h">Planting Recommendation</h4><span class="ai-badge">AI</span></div><p id="ins1b">Based on current soil moisture (61%) and pH (6.2), this is a good time to sow ginger. Expected germination rate: 85%+.</p></div>
+    <div class="ai-insight"><div class="ai-insight-header"><span style="font-size:20px">🐛</span><h4 id="ins2h">Pest Risk — Low</h4><span class="ai-badge">AI</span></div><p id="ins2b">Drone thermal scan shows no pest infestation hotspots. Next preventive neem spray recommended in 8 days.</p></div>
+    <div class="ai-insight"><div class="ai-insight-header"><span style="font-size:20px">💰</span><h4 id="ins3h">Market Timing</h4><span class="ai-badge">AI</span></div><p id="ins3b">Cardamom prices trending up. Consider holding stock 3–5 more days for better returns.</p></div>
+  </div>
+
+  <!-- CROP CALENDAR -->
+  <div class="section-header" style="margin-top:4px">
+    <div class="section-title" id="txt-calendar-title">📅 <span data-en="Crop Calendar" data-mni="পাম্বী ক্যালেন্দার">Crop Calendar</span></div>
+    <button onclick="readText('tasks')" style="background:rgba(76,175,80,0.15);border:1px solid rgba(76,175,80,0.25);color:var(--gb);padding:5px 12px;border-radius:20px;font-size:12px;font-weight:700;cursor:pointer;">🔊 Listen</button>
+  </div>
+  <div class="card">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:11px">
+      <div class="card-title" style="margin-bottom:0" id="txt-tasks-label">📋 Upcoming Tasks This Week</div>
+      <span id="week-range-label" style="font-size:11px;color:var(--tm);font-weight:600"></span>
+    </div>
+    <table class="market-table"><thead><tr><th id="th-date">Date</th><th id="th-crop">Crop</th><th id="th-task">Task</th><th id="th-priority">Priority</th><th id="th-action">Action</th></tr></thead><tbody id="tasks-tbody"></tbody></table>
+  </div>
+</div>
+
+<!-- ============ MY CROPS ============ -->
+<div id="page-crops" class="page">
+  <div class="section-header">
+    <div class="section-title">🌾 <span data-en="My Crops" data-mni="ঙাইরবা পাম্বী">My Crops</span></div>
+    <button class="btn-primary" onclick="openModal('add-crop-modal')">+ <span data-en="Add Crop" data-mni="পাম্বী থেম্বিয়ু">Add Crop</span></button>
+  </div>
+  <div class="grid-3" id="crops-grid"></div>
+  <div class="section-header" style="margin-top:4px">
+    <div class="section-title">📅 <span data-en="Crop Calendar" data-mni="পাম্বী ক্যালেন্দার">Crop Calendar</span></div>
+    <button onclick="readText('tasks')" style="background:rgba(76,175,80,0.15);border:1px solid rgba(76,175,80,0.25);color:var(--gb);padding:5px 12px;border-radius:20px;font-size:12px;font-weight:700;cursor:pointer;">🔊</button>
+  </div>
+  <div class="card">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:11px">
+      <div class="card-title" style="margin-bottom:0">📋 <span data-en="This Week's Tasks" data-mni="অনিশুবা হফথাংগী থৌদাং">This Week's Tasks</span></div>
+      <span id="week-range-label2" style="font-size:11px;color:var(--tm);font-weight:600"></span>
+    </div>
+    <table class="market-table"><thead><tr><th>Date</th><th>Crop</th><th>Task</th><th>Priority</th><th>Action</th></tr></thead><tbody id="tasks-tbody2"></tbody></table>
+  </div>
+</div>
+
+<!-- ============ IRRIGATION ============ -->
+<div id="page-irrigation" class="page">
+  <div class="section-header">
+    <div class="section-title">💧 <span data-en="Irrigation Control" data-mni="ইরিগেশন কন্ত্রোল">Irrigation Control</span></div>
+    <div class="see-all">ESP32 ✅</div>
+  </div>
+  <!-- BLYNK STATUS BAR -->
+  <div class="blynk-status-bar">
+    <div class="blynk-status-left"><div class="blynk-dot"></div> Blynk IoT Connected — Real-time pump sync active</div>
+    <div class="blynk-status-right" id="blynk-last-sync">Last sync: just now</div>
+  </div>
+  <div class="grid-2">
+    <div class="card">
+      <div class="card-title">🔧 Pump Controls <span style="font-size:10px;color:#0097a7;margin-left:6px">via Blynk</span></div>
+      <div id="pump-controls"></div>
+      <div style="margin-top:12px;display:flex;gap:10px;flex-wrap:wrap">
+        <button class="btn-primary" onclick="blynkAllAuto()">⚡ Enable Auto-Mode</button>
+        <button class="btn-blynk" onclick="openBlynkPanel()">📱 Open Blynk App</button>
+        <button class="btn-outline" onclick="alert('Schedule saved to Blynk...')">Set Schedule</button>
+      </div>
+    </div>
+    <div>
+      <div class="card" style="margin-bottom:14px">
+        <div class="card-title">📊 Water Usage This Week</div>
+        <div class="mini-chart" id="water-chart">
+          <div class="bar" style="height:45%"></div><div class="bar" style="height:60%"></div><div class="bar" style="height:35%"></div><div class="bar" style="height:80%"></div><div class="bar" style="height:50%"></div><div class="bar today" style="height:65%"></div><div class="bar" style="height:20%;opacity:0.3"></div>
+        </div>
+        <div style="display:flex;justify-content:space-between;font-size:10px;color:var(--tm);margin-top:4px">
+          <span>Mon</span><span>Tue</span><span>Wed</span><span>Thu</span><span>Fri</span><span style="color:var(--gb);font-weight:700">Today</span><span>Sun</span>
+        </div>
+        <div style="margin-top:10px">
+          <div class="progress-label"><span>Water Saved vs. Traditional</span><span style="color:#2e7d32;font-weight:700">28% 💚</span></div>
+          <div class="progress-bar"><div class="progress-fill fill-green" style="width:28%"></div></div>
+        </div>
+      </div>
+      <div class="card" id="rain-card">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px">
+          <div class="card-title" style="margin-bottom:0">🌧️ Rainfall — <span id="rain-month-label">Loading...</span></div>
+          <div style="display:flex;align-items:center;gap:7px">
+            <span id="rain-source-badge" style="font-size:10px;font-weight:700;padding:3px 8px;border-radius:10px;background:rgba(41,182,246,0.15);color:#0277bd;display:none">📡 Live</span>
+            <button onclick="loadRainData()" style="background:rgba(76,175,80,0.1);border:1px solid rgba(76,175,80,0.2);color:var(--gm);font-size:11px;font-weight:700;padding:4px 9px;border-radius:8px;cursor:pointer;font-family:'Nunito',sans-serif">⟳</button>
+          </div>
+        </div>
+        <div id="rain-calendar" style="display:none;margin-bottom:12px">
+          <div style="font-size:10px;font-weight:700;color:var(--tm);margin-bottom:7px;text-transform:uppercase;letter-spacing:0.5px">Monthly Calendar (mm)</div>
+          <div id="rain-cal-grid" style="display:grid;grid-template-columns:repeat(7,1fr);gap:3px;"></div>
+          <div style="display:flex;align-items:center;gap:5px;margin-top:7px;font-size:9px;color:var(--tm)">
+            <span>Dry</span><div style="width:12px;height:12px;border-radius:3px;background:#e8f5e9;border:1px solid #ccc"></div><div style="width:12px;height:12px;border-radius:3px;background:#81d4fa"></div><div style="width:12px;height:12px;border-radius:3px;background:#0277bd"></div><span>Heavy</span>
+            <span style="margin-left:7px">🔮=Forecast</span>
+          </div>
+        </div>
+        <div id="rain-list"><div class="loading"><div class="spinner"></div> Fetching rainfall data...</div></div>
+        <div id="rain-summary" style="display:none">
+          <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:7px;margin-top:11px">
+            <div style="background:rgba(41,182,246,0.1);border-radius:9px;padding:9px;text-align:center"><div id="rain-total" style="font-family:'Baloo 2',cursive;font-size:19px;font-weight:800;color:#0277bd">—</div><div style="font-size:9px;color:var(--tm);font-weight:600;margin-top:2px">Month Total (mm)</div></div>
+            <div style="background:rgba(76,175,80,0.1);border-radius:9px;padding:9px;text-align:center"><div id="rain-heavy-days" style="font-family:'Baloo 2',cursive;font-size:19px;font-weight:800;color:#0277bd">—</div><div style="font-size:9px;color:var(--tm);font-weight:600;margin-top:2px">Heavy Days</div></div>
+            <div style="background:rgba(249,168,37,0.1);border-radius:9px;padding:9px;text-align:center"><div id="rain-dry-days" style="font-family:'Baloo 2',cursive;font-size:19px;font-weight:800;color:#e65100">—</div><div style="font-size:9px;color:var(--tm);font-weight:600;margin-top:2px">Dry Days</div></div>
+          </div>
+        </div>
+        <div id="rain-farm-advice" class="alert-card ac-warn" style="margin-top:11px;margin-bottom:0;display:none"><div class="ai">💡</div><div><p id="rain-advice-text"></p></div></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ============ WEATHER ============ -->
+<div id="page-weather" class="page">
+  <div class="section-header"><div class="section-title">🌦️ Weather & Climate</div></div>
+  <div class="grid-2">
+    <div class="weather-widget" style="background:linear-gradient(135deg,#1a3a5c,#0d47a1)">
+      <div style="font-family:'Baloo 2',cursive;font-size:15px;font-weight:700;color:#81d4fa;margin-bottom:12px">📍 Imphal, Manipur — Now</div>
+      <div class="weather-main"><div style="font-size:58px">⛅</div><div><div class="weather-temp">24°C</div><div class="weather-desc">Partly Cloudy · Feels like 22°C</div></div></div>
+      <div class="weather-details">
+        <div class="w-detail">🌧️ Rainfall<span>Live data →</span></div>
+        <div class="w-detail">💨 Wind<span>12 km/h NE</span></div>
+        <div class="w-detail">💧 Humidity<span>72%</span></div>
+        <div class="w-detail">👁️ Visibility<span>8 km</span></div>
+        <div class="w-detail">☁️ Cloud<span>45%</span></div>
+        <div class="w-detail">🌡️ Min/Max<span>18° / 27°</span></div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-title">📅 7-Day Forecast</div>
+      <table class="market-table"><thead><tr><th>Day</th><th>Condition</th><th>Temp</th><th>Rain</th><th>Farm Impact</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Today</strong></td><td>⛅ Partly Cloudy</td><td>18–24°C</td><td>—</td><td><span class="badge badge-green">Safe to work</span></td></tr>
+        <tr><td>+1</td><td>🌧️ Light Rain</td><td>16–21°C</td><td>~8mm</td><td><span class="badge badge-gold">Avoid spray</span></td></tr>
+        <tr><td>+2</td><td>⛅ Cloudy</td><td>17–23°C</td><td>~3mm</td><td><span class="badge badge-green">Good to plant</span></td></tr>
+        <tr><td>+3</td><td>☀️ Sunny</td><td>20–28°C</td><td>0mm</td><td><span class="badge badge-green">Harvest ready</span></td></tr>
+        <tr><td>+4</td><td>🌤️ Mostly Sunny</td><td>19–26°C</td><td>~1mm</td><td><span class="badge badge-green">Fertilize now</span></td></tr>
+        <tr><td>+5</td><td>🌦️ Showers</td><td>15–22°C</td><td>~11mm</td><td><span class="badge badge-red">Secure bunds</span></td></tr>
+        <tr><td>+6</td><td>🌧️ Heavy Rain</td><td>14–20°C</td><td>~18mm</td><td><span class="badge badge-red">Stay indoors</span></td></tr>
+      </tbody></table>
+    </div>
+  </div>
+  <div class="section-header" style="margin-top:4px"><div class="section-title">🌾 Climate-Smart Advisories</div></div>
+  <div class="grid-3">
+    <div class="ai-insight"><div class="ai-insight-header"><span style="font-size:20px">☔</span><h4>Monsoon Prep</h4><span class="ai-badge">ALERT</span></div><p>Heavy rain expected this week. Strengthen terrace bunds and check drainage channels. Avoid loose topsoil areas.</p></div>
+    <div class="ai-insight"><div class="ai-insight-header"><span style="font-size:20px">🌡️</span><h4>Temperature Watch</h4><span class="ai-badge">AI</span></div><p>Sunny days ahead — ideal for cardamom flowering. Temps above 28°C may stress seedlings. Provide shade cloth for Plot C.</p></div>
+    <div class="ai-insight"><div class="ai-insight-header"><span style="font-size:20px">💨</span><h4>Wind Advisory</h4><span class="ai-badge">INFO</span></div><p>Moderate NE winds today. Drone flight safe window: 9AM–12PM and 3PM–5PM. Do not fly above 50m altitude.</p></div>
+  </div>
+</div>
+
+<!-- ============ MARKET ============ -->
+<div id="page-market" class="page">
+  <div class="section-header">
+    <div class="section-title">📊 Market Prices</div>
+    <div style="display:flex;align-items:center;gap:10px">
+      <span id="market-last-update" style="font-size:11px;color:rgba(255,255,255,0.5)">Fetching...</span>
+      <button onclick="loadMarketData()" style="background:rgba(76,175,80,0.15);border:1px solid rgba(76,175,80,0.25);color:var(--gb);padding:4px 11px;border-radius:20px;font-size:11px;font-weight:700;cursor:pointer;">⟳ Refresh</button>
+    </div>
+  </div>
+  <div class="grid-4" id="market-price-cards" style="margin-bottom:22px">
+    <div class="loading" style="grid-column:span 4"><div class="spinner"></div> Loading live prices...</div>
+  </div>
+  <div class="grid-2">
+    <div class="card">
+      <div class="card-title">🏪 Nearby Mandis</div>
+      <table class="market-table"><thead><tr><th>Market</th><th>Distance</th><th>Cardamom</th><th>Ginger</th></tr></thead>
+      <tbody>
+        <tr><td>🏛️ Imphal Mandi</td><td>8 km</td><td class="price-up">₹1,240</td><td class="price-down">₹182</td></tr>
+        <tr><td>🏪 Thoubal Market</td><td>14 km</td><td class="price-up">₹1,228</td><td class="price-up">₹190</td></tr>
+        <tr><td>🏪 Bishnupur Mkt</td><td>22 km</td><td class="price-down">₹1,215</td><td class="price-up">₹188</td></tr>
+        <tr><td>🏛️ Churachandpur</td><td>45 km</td><td class="price-up">₹1,250</td><td class="price-up">₹192</td></tr>
+      </tbody></table>
+      <div class="alert-card ac-good" style="margin-top:12px;margin-bottom:0"><div class="ai">💡</div><div><p>Best deal today: Sell Cardamom at Churachandpur for ₹1,250/kg.</p></div></div>
+    </div>
+    <div class="card">
+      <div class="card-title">📦 Sell Your Produce</div>
+      <label style="font-size:12px;font-weight:700;color:var(--tm);display:block;margin-bottom:5px">Select Crop</label>
+      <select id="sell-crop" style="width:100%;padding:9px 12px;border-radius:10px;border:1.5px solid var(--bdr);font-family:'Nunito',sans-serif;font-size:13px;color:var(--td);margin-bottom:11px">
+        <option>🫛 Cardamom</option><option>🫚 Ginger</option><option>🌿 Chakhao Rice</option>
+      </select>
+      <label style="font-size:12px;font-weight:700;color:var(--tm);display:block;margin-bottom:5px">Quantity (kg)</label>
+      <input id="sell-qty" type="number" placeholder="e.g. 50" style="width:100%;padding:9px 12px;border-radius:10px;border:1.5px solid var(--bdr);font-family:'Nunito',sans-serif;font-size:13px;color:var(--td);margin-bottom:14px"/>
+      <button class="btn-primary" style="width:100%" onclick="postToMarket()">📤 Post to Buyers</button>
+      <div style="margin-top:9px;font-size:11px;color:var(--tm);text-align:center">Connected to e-NAM & local buyer network</div>
+    </div>
+  </div>
+</div>
+
+<!-- ============ SCHEMES ============ -->
+<div id="page-schemes" class="page">
+  <div class="section-header"><div class="section-title">🏛️ Government Schemes & Support</div></div>
+  <div class="grid-2">
+    <div>
+      <div class="scheme-card"><div class="scheme-icon" style="background:rgba(76,175,80,0.12)">🌾</div><div><div class="scheme-title">PM-Kisan Samman Nidhi</div><div class="scheme-desc">₹6,000/year direct income support. Your next installment is due in 28 days.</div><div class="scheme-tag">✅ You are enrolled</div></div></div>
+      <div class="scheme-card"><div class="scheme-icon" style="background:rgba(41,182,246,0.12)">🚁</div><div><div class="scheme-title">SMAM — Agri Mechanization</div><div class="scheme-desc">Up to 50% subsidy on agricultural equipment including drones. Apply before March 2027.</div><div class="scheme-tag">📋 Application Open</div></div></div>
+      <div class="scheme-card"><div class="scheme-icon" style="background:rgba(249,168,37,0.12)">💰</div><div><div class="scheme-title">Fasal Bima Yojana</div><div class="scheme-desc">Crop insurance against natural disasters. Premium as low as 1.5% of sum insured.</div><div class="scheme-tag">⏳ Enroll Now</div></div></div>
+      <div class="scheme-card"><div class="scheme-icon" style="background:rgba(198,40,40,0.1)">🌱</div><div><div class="scheme-title">Manipur Organic Farming Mission</div><div class="scheme-desc">Supports organic certification and marketing for hill farmers. Free soil testing available.</div><div class="scheme-tag">📋 Apply Free</div></div></div>
+    </div>
+    <div>
+      <div class="card" style="margin-bottom:14px">
+        <div class="card-title">📞 Helplines & Support</div>
+        <div class="pump-control" style="cursor:pointer" onclick="speak('Kisan Call Center. Toll free number 1800 180 1551. Available 24 by 7.')"><div class="pump-info">📱 Kisan Call Center<small>1800-180-1551 · Free · 24x7</small></div><span class="badge badge-green">Call Now</span></div>
+        <div class="pump-control" style="cursor:pointer"><div class="pump-info">🏫 KVK Imphal (ICAR)<small>Expert agronomist advice</small></div><span class="badge badge-blue">Contact</span></div>
+        <div class="pump-control" style="cursor:pointer"><div class="pump-info">🌐 Manipur Agri Dept.<small>manipur.gov.in/agriculture</small></div><span class="badge badge-gold">Website</span></div>
+        <div class="pump-control" style="cursor:pointer"><div class="pump-info">💊 Free Soil Testing<small>Apply for free test kit from KVK</small></div><span class="badge badge-green">Apply</span></div>
+      </div>
+      <div class="ai-insight">
+        <div class="ai-insight-header"><span style="font-size:20px">💡</span><h4>You may qualify for 3 new schemes</h4><span class="ai-badge">AI</span></div>
+        <p>Based on your farm profile: Drone Subsidy (SMAM), Organic Certification Grant, and Hilly Region Special Package.</p>
+        <button class="btn-primary" style="margin-top:10px;padding:8px 16px;font-size:12px" onclick="speak('Opening application forms. Please visit the nearest Krishi Vigyan Kendra with your land documents and Aadhaar card.')">Help me Apply 📋</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ============ AI ASSISTANT ============ -->
+<div id="page-aiassist" class="page">
+  <div class="section-header"><div class="section-title">🤖 AI Farm Assistant</div></div>
+  <div class="grid-main">
+    <div class="chat-wrap">
+      <div class="chat-header"><div style="font-size:22px">🤖</div><div><h3>FarmBot — AI Advisor</h3><p style="color:rgba(255,255,255,0.45);font-size:11px">Powered by ElectroMinds · English & Meitei</p></div><div style="margin-left:auto;display:flex;align-items:center;gap:6px;font-size:11px;color:rgba(255,255,255,0.45)"><div class="drone-pulse"></div> Online</div></div>
+      <div class="chat-messages" id="chat-messages">
+        <div class="msg msg-bot">🙏 Khurumjari! I am your AI Farm Assistant. Ask me anything about crops, pests, weather, market prices, or government schemes.</div>
+        <div class="msg msg-bot">💡 <strong>Quick tip:</strong> Your cardamom is in flowering stage. Keep soil moisture above 55% and avoid overhead irrigation to prevent fungal disease.</div>
+      </div>
+      <div class="quick-btns">
+        <button class="q-btn" onclick="sendQuickMsg('What should I spray for pests?')">🐛 Pest advice</button>
+        <button class="q-btn" onclick="sendQuickMsg('When should I irrigate today?')">💧 Irrigation</button>
+        <button class="q-btn" onclick="sendQuickMsg('Best fertilizer for cardamom?')">🌿 Fertilizer</button>
+        <button class="q-btn" onclick="sendQuickMsg('Will it rain this week?')">🌧️ Rain</button>
+        <button class="q-btn" onclick="sendQuickMsg('How can I improve my yield?')">📈 Yield tips</button>
+      </div>
+      <div class="chat-input-row">
+        <input class="chat-input" id="chat-input" placeholder="Ask anything about your farm..." onkeydown="if(event.key==='Enter')sendChat()"/>
+        <button class="chat-send" onclick="sendChat()">Send ▶</button>
+      </div>
+    </div>
+    <div>
+      <div class="card" style="margin-bottom:14px">
+        <div class="card-title">📖 Common Questions</div>
+        <div style="display:flex;flex-direction:column;gap:7px">
+          <div class="pump-control" style="cursor:pointer" onclick="sendQuickMsg('How to increase cardamom yield?')"><div class="pump-info">Increase cardamom yield?<small>Tap to ask AI</small></div><span>→</span></div>
+          <div class="pump-control" style="cursor:pointer" onclick="sendQuickMsg('Ginger soil pH requirements?')"><div class="pump-info">Ginger pH requirements?<small>Tap to ask AI</small></div><span>→</span></div>
+          <div class="pump-control" style="cursor:pointer" onclick="sendQuickMsg('Organic pest control methods?')"><div class="pump-info">Organic pest control?<small>Tap to ask AI</small></div><span>→</span></div>
+          <div class="pump-control" style="cursor:pointer" onclick="sendQuickMsg('How to apply for PM-Kisan?')"><div class="pump-info">Apply PM-Kisan scheme?<small>Tap to ask AI</small></div><span>→</span></div>
+        </div>
+      </div>
+      <div class="drone-status">
+        <div class="drone-title"><div class="drone-pulse"></div> AI Status</div>
+        <div class="drone-grid">
+          <div class="drone-item"><label>Engine</label><span>Claude AI</span></div>
+          <div class="drone-item"><label>Language</label><span>EN + Meitei</span></div>
+          <div class="drone-item"><label>Response</label><span>&lt;2 sec</span></div>
+          <div class="drone-item"><label>Mode</label><span>Agri Expert</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ============ DRONE ============ -->
+<div id="page-drone" class="page">
+  <div class="section-header">
+    <div class="section-title">🚁 Drone Monitor</div>
+    <span class="badge badge-green"><div class="drone-pulse" style="display:inline-block;margin-right:4px"></div> Live Feed Active</span>
+  </div>
+  <div class="grid-2">
+    <div class="drone-status" style="border-radius:16px">
+      <div class="drone-title">🚁 Farm-on-Chip Drone · Unit 01</div>
+      <div class="drone-grid">
+        <div class="drone-item"><label>Status</label><span>✅ Active</span></div>
+        <div class="drone-item"><label>Battery</label><span id="d-battery">78% 🔋</span></div>
+        <div class="drone-item"><label>Altitude</label><span>35m</span></div>
+        <div class="drone-item"><label>Speed</label><span>12 km/h</span></div>
+        <div class="drone-item"><label>GPS</label><span>24°47'N 93°56'E</span></div>
+        <div class="drone-item"><label>Mode</label><span>Auto-Survey</span></div>
+        <div class="drone-item"><label>Coverage</label><span>2.5 ha</span></div>
+        <div class="drone-item"><label>Network</label><span>LoRaWAN ✅</span></div>
+      </div>
+      <div style="margin-top:14px;display:flex;gap:9px;flex-wrap:wrap">
+        <button class="btn-primary" style="font-size:12px" onclick="droneCmd('Plot A')">📍 Plot A</button>
+        <button class="btn-primary" style="font-size:12px" onclick="droneCmd('Plot B')">📍 Plot B</button>
+        <button class="btn-primary" style="font-size:12px" onclick="droneCmd('Plot C')">📍 Plot C</button>
+        <button class="btn-outline" style="font-size:12px" onclick="droneCmd('Full Scan')">🔍 Full Scan</button>
+        <button class="btn-outline" style="font-size:12px" onclick="droneCmd('Home')">🏠 Return</button>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-title">📷 Latest NDVI Scan — Today 9:15 AM</div>
+      <div style="background:#f1f8f1;border-radius:12px;height:160px;display:flex;align-items:center;justify-content:center;margin-bottom:12px;border:2px dashed rgba(76,175,80,0.2);flex-direction:column;gap:5px">
+        <div style="font-size:34px">🗺️</div>
+        <div style="font-weight:600;font-size:13px;color:var(--tm)">NDVI Thermal Map</div>
+        <div style="font-size:11px;color:var(--tm)">Green=Healthy · Yellow=Monitor · Red=Alert</div>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:9px">
+        <div style="background:rgba(76,175,80,0.1);border-radius:10px;padding:10px;text-align:center"><div style="font-family:'Baloo 2',cursive;font-size:22px;font-weight:800;color:#2e7d32">82%</div><div style="font-size:10px;color:var(--tm);font-weight:600">Healthy Area</div></div>
+        <div style="background:rgba(249,168,37,0.1);border-radius:10px;padding:10px;text-align:center"><div style="font-family:'Baloo 2',cursive;font-size:22px;font-weight:800;color:#e65100">18%</div><div style="font-size:10px;color:var(--tm);font-weight:600">Needs Attention</div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SENSOR MODULE MANAGER -->
+  <div class="section-header" style="margin-top:4px">
+    <div class="section-title">📡 Sensor Module Manager</div>
+    <button class="btn-primary" style="font-size:12px" onclick="openModal('add-sensor-modal')">+ Add Sensor</button>
+  </div>
+  <div class="grid-4" id="sensor-modules-grid"></div>
+  <div class="card" style="margin-top:4px">
+    <div class="card-title">📊 Sensor Readings Log</div>
+    <table class="market-table"><thead><tr><th>Sensor</th><th>Last Reading</th><th>Time</th><th>Status</th></tr></thead>
+    <tbody id="sensor-log-tbody"></tbody></table>
+  </div>
+</div>
+
+<!-- ============ MODALS ============ -->
+<!-- Add Crop Modal -->
+<div class="modal-overlay" id="add-crop-modal">
+  <div class="modal" style="position:relative">
+    <button class="modal-close" onclick="closeModal('add-crop-modal')">×</button>
+    <h3>🌱 Add New Crop</h3>
+    <label>Crop Name</label>
+    <input id="new-crop-name" placeholder="e.g. Turmeric"/>
+    <label>Plot</label>
+    <input id="new-crop-plot" placeholder="e.g. Plot D"/>
+    <label>Area (hectares)</label>
+    <input id="new-crop-area" type="number" placeholder="e.g. 0.5"/>
+    <label>Growth Stage</label>
+    <select id="new-crop-stage">
+      <option>Seedling Stage</option><option>Vegetative Stage</option><option>Flowering Stage</option><option>Fruiting Stage</option><option>Harvest Ready</option>
+    </select>
+    <label>Crop Emoji</label>
+    <input id="new-crop-emoji" placeholder="🌿" maxlength="2"/>
+    <div class="modal-btns">
+      <button class="btn-outline" onclick="closeModal('add-crop-modal')">Cancel</button>
+      <button class="btn-primary" onclick="addCrop()">Add Crop ✅</button>
+    </div>
+  </div>
+</div>
+
+<!-- Crop Detail Modal -->
+<div class="modal-overlay" id="crop-detail-modal">
+  <div class="modal" style="position:relative">
+    <button class="modal-close" onclick="closeModal('crop-detail-modal')">×</button>
+    <h3 id="detail-title">Crop Details</h3>
+    <div id="detail-content"></div>
+    <div class="modal-btns">
+      <button class="btn-outline" onclick="closeModal('crop-detail-modal')">Close</button>
+      <button class="btn-primary" id="detail-harvest-btn" onclick="harvestCrop()">Mark Harvested 🌾</button>
+    </div>
+  </div>
+</div>
+
+<!-- AI Advice Modal -->
+<div class="modal-overlay" id="ai-advice-modal">
+  <div class="modal" style="position:relative">
+    <button class="modal-close" onclick="closeModal('ai-advice-modal')">×</button>
+    <h3 id="ai-advice-title">🤖 AI Advice</h3>
+    <div id="ai-advice-content" style="margin-top:10px">
+      <div class="loading"><div class="spinner"></div> Generating AI advice...</div>
+    </div>
+    <div class="modal-btns" style="margin-top:16px">
+      <button class="btn-outline" onclick="closeModal('ai-advice-modal')">Close</button>
+      <button class="btn-primary" onclick="readAIAdvice()">🔊 Read Aloud</button>
+    </div>
+  </div>
+</div>
+
+<!-- Add Sensor Modal -->
+<div class="modal-overlay" id="add-sensor-modal">
+  <div class="modal" style="position:relative">
+    <button class="modal-close" onclick="closeModal('add-sensor-modal')">×</button>
+    <h3>📡 Add Sensor Module</h3>
+    <label>Sensor Type</label>
+    <select id="new-sensor-type">
+      <option value="Soil Moisture">💧 Soil Moisture Sensor</option>
+      <option value="Temperature">🌡️ Temperature Sensor</option>
+      <option value="pH Sensor">🌿 pH Sensor</option>
+      <option value="NDVI Camera">📷 NDVI Camera</option>
+      <option value="Humidity">☁️ Humidity Sensor</option>
+      <option value="NPK Sensor">🧪 NPK Sensor</option>
+      <option value="CO2 Sensor">🌬️ CO2 Sensor</option>
+      <option value="Leaf Wetness">🍃 Leaf Wetness Sensor</option>
+    </select>
+    <label>Module Version</label>
+    <input id="new-sensor-version" placeholder="e.g. v1.3"/>
+    <label>Assigned Plot</label>
+    <select id="new-sensor-plot">
+      <option>Plot A</option><option>Plot B</option><option>Plot C</option><option>All Plots</option>
+    </select>
+    <div class="modal-btns">
+      <button class="btn-outline" onclick="closeModal('add-sensor-modal')">Cancel</button>
+      <button class="btn-primary" onclick="addSensor()">Add & Attach ✅</button>
+    </div>
+  </div>
+</div>
+
+<!-- Blynk Panel Modal -->
+<div class="modal-overlay" id="blynk-modal">
+  <div class="modal" style="position:relative;max-width:550px">
+    <button class="modal-close" onclick="closeModal('blynk-modal')">×</button>
+    <h3>📱 Blynk IoT Dashboard</h3>
+    <div style="background:rgba(0,186,255,0.07);border:1px solid rgba(0,186,255,0.25);border-radius:12px;padding:14px;margin-bottom:16px">
+      <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px"><div class="blynk-dot"></div><span style="font-weight:700;color:#0097a7;font-size:14px">Connected to Blynk Server</span></div>
+      <div style="font-size:12px;color:var(--tm)">Device: ESP32 · Template: ElectroMinds Farm v2 · All pumps synced</div>
+    </div>
+    <label>Blynk Auth Token</label>
+    <input id="blynk-token" placeholder="Paste your Blynk Auth Token here..." style="margin-bottom:11px"/>
+    <label>Server</label>
+    <select id="blynk-server" style="margin-bottom:11px"><option value="blynk.cloud">blynk.cloud (Default)</option><option value="fra1.blynk.cloud">EU — fra1.blynk.cloud</option><option value="sgp1.blynk.cloud">Asia — sgp1.blynk.cloud</option></select>
+    <div style="background:#fff8e1;border:1.5px solid #f9a825;border-radius:10px;padding:11px;font-size:12px;color:#5d3a00;margin-bottom:14px">
+      ⚠️ <strong>Virtual Pin Mapping:</strong> V1=Pump1, V2=Pump2, V3=Pump3, V4=Soil Moisture, V5=Temperature, V6=Humidity. Configure same pins in Blynk app.
+    </div>
+    <div class="card" style="padding:12px;margin-bottom:12px">
+      <div class="card-title">🔴 Live Pump Status from Blynk</div>
+      <div id="blynk-pump-status">
+        <div class="pump-control"><div class="pump-info">Pump 1 — Plot A<small>V1 · Cardamom</small></div><div style="font-size:12px;font-weight:700;color:var(--tm)" id="blynk-p1-status">Syncing...</div></div>
+        <div class="pump-control"><div class="pump-info">Pump 2 — Plot B<small>V2 · Ginger</small></div><div style="font-size:12px;font-weight:700;color:var(--tm)" id="blynk-p2-status">Syncing...</div></div>
+        <div class="pump-control"><div class="pump-info">Pump 3 — Plot C<small>V3 · Chakhao</small></div><div style="font-size:12px;font-weight:700;color:var(--tm)" id="blynk-p3-status">Syncing...</div></div>
+      </div>
+    </div>
+    <div class="modal-btns">
+      <button class="btn-outline" onclick="closeModal('blynk-modal')">Close</button>
+      <button class="btn-blynk" onclick="saveBlynkConfig()">💾 Save & Connect</button>
+      <button class="btn-primary" onclick="openBlynkWebApp()">📱 Open Blynk App</button>
+    </div>
+  </div>
+</div>
+<script>
+// =============================================
+// TRANSLATION
+// =============================================
+const T={
+  en:{
+    greeting:"Khurumjari, Farmer Ibungo! Your fields are looking healthy today.",
+    greeting_sub:"Check below for today's updates.",
+    a1t:"Irrigation Needed Soon",a1b:"Soil moisture dropping. Consider activating Pump 2 in Plot B within 4 hours.",
+    a2t:"Cardamom Health — Excellent",a2b:"NDVI index is high. No pest threats detected by drone scan this morning.",
+    a3t:"Rain Alert This Week",a3b:"Heavy rain predicted. Delay fertilizer application. Secure terrace embankments.",
+    a4t:"AI Tip",a4b:"Soil pH at 6.2. Adding lime 0.5kg per plot could improve yield by up to 12%.",
+    ins1h:"Planting Recommendation",ins1b:"Based on soil moisture 61% and pH 6.2, this is a good time to sow ginger. Expected germination rate 85%.",
+    ins2h:"Pest Risk — Low",ins2b:"Drone scan shows no pest hotspots. Next preventive neem spray recommended in 8 days.",
+    ins3h:"Market Timing",ins3b:"Cardamom prices trending up. Consider holding stock 3 to 5 more days for better returns.",
+    mark_done:"Mark Done",done:"✅ Done",high:"High",medium:"Medium",low:"Low",listen:"Listen",stop:"Stop",
+  },
+  mni:{
+    greeting:"খুরুমজরি, ইবুঙ্গো! নহাক্কী খোঙথাং অমা লৌমিন্নবা থৌনা লৌরকপা চাউখৎলে।",
+    greeting_sub:"অদুগা অনিশুবা থৌদাং পুম্নমক চেকহনবিয়ু।",
+    a1t:"ইরিগেশন লৌবা চাউহনগনি",a1b:"মপু লাংথ্রোই কম হৌরে। প্লট B দা পাম্প ২ ওন তৌহনবিয়ু।",
+    a2t:"এলাইচি — লায়েংবা",a2b:"NDVI ইন্দেক্স থাজরে। ড্রোন স্ক্যানদা কীট-পতঙ্গ উরোই।",
+    a3t:"নুংশিৎ এলার্ট",a3b:"থোংজিন নুংশিৎ পাইগনি। সার পায়োকবা থামহনবিয়ু।",
+    a4t:"AI টিপ",a4b:"মপু pH ৬.২ লৌবগী মতুংদা চুন ০.৫ কেজি পুথোক্লগা ফলদান ১২% চাউথোকগনি।",
+    ins1h:"পাম্বী থেম্বিবা",ins1b:"মপু লাংথ্রোই ৬১% অমসুং pH ৬.২ লৌবগী মতুংদা অদোম পুথোকপা লায়েংবা। অঙম্বা হৌথোকপ ৮৫%।",
+    ins2h:"কীট-পতঙ্গ — মথৌ নত্তে",ins2b:"ড্রোন স্ক্যানদা কীট-পতঙ্গগী মফম উরোই। নুমিৎ ৮ গী মতুগী নীম স্প্রে তৌবিয়ু।",
+    ins3h:"বাজার মতম",ins3b:"এলাইচিগী মূল্য চাউথোকরি। নুমিৎ ৩-৫ চুক্লগা শায়লগা মথৌ তাগনি।",
+    mark_done:"থাজবা",done:"✅ থাজরে",high:"অহানবা",medium:"অনীশুবা",low:"অহুমশুবা",listen:"শনবিয়ু",stop:"থামহনবিয়ু",
+  }
+};
+let CL='en',speaking=false;
+
+function toggleLang(){
+  CL=CL==='en'?'mni':'en';
+  document.getElementById('lang-toggle-btn').textContent=CL==='en'?'🇮🇳 English':'🇮🇳 মৈতৈলোন্';
+  document.getElementById('audio-btn-label').textContent=T[CL].listen;
+  applyTranslation();
+  buildTaskTable(); buildTaskTable2(); buildCropsGrid();
+}
+function applyTranslation(){
+  const L=T[CL];
+  const set=(id,v)=>{const e=document.getElementById(id);if(e&&v)e.textContent=v;};
+  set('txt-greeting','🙏 '+L.greeting.split('!')[0]+'!');
+  set('txt-greeting-sub',L.greeting_sub);
+  set('a1t',L.a1t);set('a1b',L.a1b);set('a2t',L.a2t);set('a2b',L.a2b);
+  set('a3t',L.a3t);set('a3b',L.a3b);set('a4t',L.a4t);set('a4b',L.a4b);
+  set('ins1h',L.ins1h);set('ins1b',L.ins1b);set('ins2h',L.ins2h);set('ins2b',L.ins2b);
+  set('ins3h',L.ins3h);set('ins3b',L.ins3b);
+  document.querySelectorAll('[data-en]').forEach(el=>{
+    el.textContent=el.getAttribute('data-'+CL)||el.getAttribute('data-en');
+  });
+}
+
+// =============================================
+// TTS
+// =============================================
+function speak(text){
+  if(!('speechSynthesis' in window))return;
+  window.speechSynthesis.cancel();
+  const u=new SpeechSynthesisUtterance(text);
+  const voices=window.speechSynthesis.getVoices();
+  const pref=voices.find(v=>v.lang.startsWith('hi')||v.lang.startsWith('bn')||v.lang.startsWith('as'));
+  if(pref)u.voice=pref;u.rate=0.88;
+  window.speechSynthesis.speak(u);speaking=true;
+  const btn=document.getElementById('audio-btn');
+  const lbl=document.getElementById('audio-btn-label');
+  if(btn)btn.style.background='rgba(198,40,40,0.18)';
+  if(lbl)lbl.textContent=T[CL].stop;
+  u.onend=()=>{speaking=false;if(btn)btn.style.background='rgba(249,168,37,0.15)';if(lbl)lbl.textContent=T[CL].listen;};
+}
+function readPageAloud(){
+  if(speaking){window.speechSynthesis.cancel();speaking=false;return;}
+  const L=T[CL];
+  const moisture=document.getElementById('s-moisture')?.textContent||'61';
+  const temp=document.getElementById('s-temp')?.textContent||'24';
+  if(CL==='mni'){
+    speak(`খুরুমজরি। ${L.a1t}। ${L.a1b} ${L.a2t}। ${L.a2b} ${L.a4t}। ${L.a4b}`);
+  } else {
+    speak(`Good day farmer. Farm update. ${L.a1t}. ${L.a1b} ${L.a2t}. ${L.a2b} Sensor readings: Soil moisture ${moisture} percent. Temperature ${temp} degrees. ${L.a4t}. ${L.a4b}`);
+  }
+}
+function readText(section){
+  const L=T[CL];
+  if(section==='greeting') speak(L.greeting+' '+L.greeting_sub);
+  if(section==='alerts') speak([L.a1t,L.a1b,L.a2t,L.a2b,L.a3t,L.a3b].join('. '));
+  if(section==='tasks'){
+    const now=new Date();
+    const monday=getMondayOfWeek(now);
+    const todayTasks=TASK_TEMPLATES.filter(t=>{
+      const td=new Date(monday);td.setDate(monday.getDate()+t.d);
+      return td.toDateString()===now.toDateString();
+    });
+    const tl=todayTasks.map(t=>CL==='mni'?t.mni:t.en).join('. ');
+    speak(tl.length>0?(CL==='mni'?`অহানবা নুমিৎতা থৌদাং। ${tl}`:`Today's tasks: ${tl}`):(CL==='mni'?'অহানবা নুমিৎতা থৌদাং নত্তে।':'No tasks today.'));
+  }
+}
+function readAIAdvice(){
+  const content=document.getElementById('ai-advice-content')?.innerText||'';
+  speak(content.replace(/[🌿💧🌱🌧️📈🫛🏛️🤖⚠️✅]/g,''));
+}
+
+// =============================================
+// PAGE NAV
+// =============================================
+function showPage(id,el){
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active'));
+  document.getElementById('page-'+id).classList.add('active');
+  if(el)el.classList.add('active');
+  if(id==='irrigation')loadRainData();
+  if(id==='market')loadMarketData();
+}
+
+// =============================================
+// DATE + SENSORS
+// =============================================
+function updateDate(){
+  const now=new Date();
+  document.getElementById('topbar-date').textContent=now.toLocaleDateString('en-IN',{weekday:'long',year:'numeric',month:'long',day:'numeric'});
+}
+updateDate();
+function jitter(v,r){return Math.max(0,Math.min(100,v+(Math.random()-0.5)*r));}
+function updateSensors(){
+  const m=Math.round(jitter(61,4)),t=Math.round(jitter(24,2)),h=Math.round(jitter(72,5));
+  const set=(id,v)=>{const e=document.getElementById(id);if(e)e.textContent=v;};
+  set('s-moisture',m);set('s-temp',t);set('s-humid',h);set('soil-pct',m+'%');set('topbar-temp',t+'°C');set('w-humid',h+'%');set('w-temp',t+'°C');
+  const bset=(id,w)=>{const e=document.getElementById(id);if(e)e.style.width=w+'%';};
+  bset('bar-moisture',m);bset('bar-temp',t/50*100);bset('bar-humid',h);
+}
+setInterval(updateSensors,5000);
+
+// =============================================
+// CROPS DATA + GRID
+// =============================================
+let crops=[
+  {id:1,emoji:'🫛',name:'Cardamom',plot:'Plot A',area:'0.8',stage:'Flowering Stage',growth:65,soil:78,badges:[{cls:'badge-green',t:'🌡️ 24°C Optimal'},{cls:'badge-gold',t:'💧 Needs Water Soon'}],pest:'No Pests',water:'Needs Soon',ph:'6.2'},
+  {id:2,emoji:'🫚',name:'Ginger',plot:'Plot B',area:'0.5',stage:'Vegetative Stage',growth:38,soil:88,badges:[{cls:'badge-green',t:'✅ No Pests'},{cls:'badge-green',t:'💧 Well Irrigated'}],pest:'No Pests',water:'Good',ph:'6.0'},
+  {id:3,emoji:'🌿',name:'Chakhao Rice',plot:'Plot C',area:'1.2',stage:'Seedling Stage',growth:18,soil:52,badges:[{cls:'badge-gold',t:'⚠️ pH Low'},{cls:'badge-blue',t:'🌧️ Rain Expected'}],pest:'No Pests',water:'Good',ph:'5.8'},
+];
+let nextCropId=4;
+const completedTasks=new Set();
+const harvestedCrops=new Set();
+let currentCropId=null;
+let lastAIAdvice='';
+
+function buildCropsGrid(){
+  const grid=document.getElementById('crops-grid');if(!grid)return;
+  grid.innerHTML='';
+  const activeCrops=crops.filter(c=>!harvestedCrops.has(c.id));
+  document.getElementById('dash-crop-count').textContent=activeCrops.length;
+  activeCrops.forEach(c=>{
+    const div=document.createElement('div');div.className='crop-card';
+    div.innerHTML=`
+      <div class="crop-header"><div class="crop-emoji">${c.emoji}</div><div><div class="crop-name">${c.name}</div><div class="crop-sub">${c.plot} — ${c.area} ha</div></div></div>
+      <div class="crop-body">
+        <div class="crop-stage">${c.stage}</div>
+        <div class="progress-wrap"><div class="progress-label"><span>Growth Progress</span><span>${c.growth}%</span></div><div class="progress-bar"><div class="progress-fill fill-green" style="width:${c.growth}%"></div></div></div>
+        <div class="progress-wrap"><div class="progress-label"><span>Soil Health</span><span>${c.soil>=75?'Good':c.soil>=55?'Monitor':'Poor'}</span></div><div class="progress-bar"><div class="progress-fill fill-blue" style="width:${c.soil}%"></div></div></div>
+        <div style="margin-top:10px;display:flex;gap:6px;flex-wrap:wrap">${c.badges.map(b=>`<span class="badge ${b.cls}">${b.t}</span>`).join('')}</div>
+        <div style="margin-top:11px;display:flex;gap:7px;flex-wrap:wrap">
+          <button class="btn-primary" style="padding:6px 12px;font-size:11px" onclick="viewCropDetail(${c.id})">📋 Details</button>
+          <button class="btn-outline" style="padding:6px 12px;font-size:11px" onclick="openAIAdvice(${c.id})">🤖 AI Advice</button>
+          <button style="background:rgba(198,40,40,0.1);color:#c62828;border:1.5px solid rgba(198,40,40,0.2);padding:6px 12px;font-size:11px;border-radius:10px;cursor:pointer;font-family:'Nunito',sans-serif" onclick="confirmHarvest(${c.id})">🌾 Harvest</button>
+        </div>
+      </div>`;
+    grid.appendChild(div);
+  });
+}
+function viewCropDetail(id){
+  const c=crops.find(x=>x.id===id);if(!c)return;
+  currentCropId=id;
+  document.getElementById('detail-title').textContent=c.emoji+' '+c.name+' — Details';
+  document.getElementById('detail-content').innerHTML=`
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px">
+      <div style="background:#f5f5f5;padding:10px;border-radius:10px"><div style="font-size:10px;font-weight:700;color:var(--tm);margin-bottom:4px">PLOT</div><div style="font-weight:700">${c.plot}</div></div>
+      <div style="background:#f5f5f5;padding:10px;border-radius:10px"><div style="font-size:10px;font-weight:700;color:var(--tm);margin-bottom:4px">AREA</div><div style="font-weight:700">${c.area} ha</div></div>
+      <div style="background:#f5f5f5;padding:10px;border-radius:10px"><div style="font-size:10px;font-weight:700;color:var(--tm);margin-bottom:4px">GROWTH STAGE</div><div style="font-weight:700">${c.stage}</div></div>
+      <div style="background:#f5f5f5;padding:10px;border-radius:10px"><div style="font-size:10px;font-weight:700;color:var(--tm);margin-bottom:4px">SOIL pH</div><div style="font-weight:700">${c.ph}</div></div>
+      <div style="background:#f5f5f5;padding:10px;border-radius:10px"><div style="font-size:10px;font-weight:700;color:var(--tm);margin-bottom:4px">PEST STATUS</div><div style="font-weight:700;color:#2e7d32">${c.pest}</div></div>
+      <div style="background:#f5f5f5;padding:10px;border-radius:10px"><div style="font-size:10px;font-weight:700;color:var(--tm);margin-bottom:4px">WATER</div><div style="font-weight:700">${c.water}</div></div>
+    </div>
+    <div class="progress-wrap"><div class="progress-label"><span>Growth Progress</span><span>${c.growth}%</span></div><div class="progress-bar"><div class="progress-fill fill-green" style="width:${c.growth}%"></div></div></div>
+    <div class="progress-wrap"><div class="progress-label"><span>Soil Health</span><span>${c.soil}%</span></div><div class="progress-bar"><div class="progress-fill fill-blue" style="width:${c.soil}%"></div></div></div>
+  `;
+  openModal('crop-detail-modal');
+}
+function openAIAdvice(id){
+  const c=crops.find(x=>x.id===id);if(!c)return;
+  document.getElementById('ai-advice-title').textContent='🤖 AI Advice — '+c.name;
+  document.getElementById('ai-advice-content').innerHTML='<div class="loading"><div class="spinner"></div> Generating advice...</div>';
+  openModal('ai-advice-modal');
+  const adviceMap={
+    'Cardamom':CL==='mni'?`🌱 এলাইচিগীদমক: মপু লাংথ্রোই ৫৫-৭০% ফাউহনবিয়ু। ছাংগুম লৌদবা। pH ৬.০-৬.৫ তক পানীহনবিয়ু। ৭ নুমিৎ অমাগুম্বা নীম স্প্রে তৌবিয়ু। কম্পোস্ট ৫ কেজি/পাম্বী পুথোকবিয়ু।`:`🌱 Cardamom Advice: Maintain soil moisture 55-70%. Provide partial shade. Keep pH 6.0-6.5. Spray neem oil every 7 days preventively. Apply compost 5kg/plant. Avoid waterlogging — ensure terraced drainage.`,
+    'Ginger':CL==='mni'?`🫚 অদোমগীদমক: মপু লাংথ্রোই ৬০-৭৫% ফাউহনবিয়ু। pH ৬.০-৬.৫ নোংমদৌরিবা। পানী লাক্তবা নত্তে — ড্রেনেজ চেক তৌবিয়ু। NPK ৮-১০-১৫ ব্যবহার তৌবিয়ু।`:`🫚 Ginger Advice: Maintain moisture 60-75%. Avoid waterlogging — check drainage channels. pH should be 6.0-6.5. Apply NPK 8-10-15. Watch for yellow leaves — sign of rhizome rot.`,
+    'Chakhao Rice':CL==='mni'?`🌿 চাখাও ভাতগীদমক: মপু pH ৬.০ ফাউহনবগীদমক চুন পুথোকবিয়ু। মপু লাংথ্রোই ৭০-৮০% ফাউহনবিয়ু। মালচিং তৌবিয়ু।`:`🌿 Chakhao Rice Advice: Add lime (0.5kg/plot) to bring pH to 6.0+. Maintain 70-80% moisture. Use mulching to retain soil heat. This variety thrives in hilly cool climate — harvest in 130-140 days.`,
+  };
+  setTimeout(()=>{
+    const advice=adviceMap[c.name]||`🤖 For ${c.name}: Monitor soil moisture daily, maintain optimal pH, apply organic matter regularly and watch for early pest signs.`;
+    lastAIAdvice=advice;
+    document.getElementById('ai-advice-content').innerHTML=`<div style="background:#e8f5e9;border:1.5px solid #4caf50;border-radius:12px;padding:14px;font-size:13px;line-height:1.7;color:var(--td)">${advice}</div>`;
+    speak(advice.replace(/[🌱🫚🌿🤖]/g,''));
+  },900);
+}
+function confirmHarvest(id){
+  const c=crops.find(x=>x.id===id);if(!c)return;
+  if(confirm(`Mark ${c.name} in ${c.plot} as harvested? This will remove it from active crops.`)){
+    harvestedCrops.add(id);buildCropsGrid();
+    speak(CL==='mni'?`${c.name} লৈ তোয়না। খুরুমজরি!`:`${c.name} harvest recorded. Well done farmer!`);
+  }
+}
+function harvestCrop(){
+  if(currentCropId)confirmHarvest(currentCropId);
+  closeModal('crop-detail-modal');
+}
+function addCrop(){
+  const name=document.getElementById('new-crop-name').value.trim();
+  const plot=document.getElementById('new-crop-plot').value.trim();
+  const area=document.getElementById('new-crop-area').value||'0.5';
+  const stage=document.getElementById('new-crop-stage').value;
+  const emoji=document.getElementById('new-crop-emoji').value||'🌱';
+  if(!name||!plot){alert('Please fill crop name and plot.');return;}
+  crops.push({id:nextCropId++,emoji,name,plot,area,stage,growth:5,soil:70,badges:[{cls:'badge-green',t:'🌱 New Crop'}],pest:'No Pests',water:'Good',ph:'6.0'});
+  closeModal('add-crop-modal');buildCropsGrid();buildTaskTable();buildTaskTable2();
+  speak(CL==='mni'?`${name} পাম্বী থেমখিবগী থাংনজরে।`:`${name} added to your farm successfully.`);
+  document.getElementById('new-crop-name').value='';document.getElementById('new-crop-plot').value='';document.getElementById('new-crop-area').value='';document.getElementById('new-crop-emoji').value='';
+}
+</script>
+<script>
+// =============================================
+// TASKS — REAL DATES THIS WEEK
+// =============================================
+const TASK_TEMPLATES=[
+  {d:0,crop:'🫛 Cardamom',en:'Soil moisture check — all plots',mni:'পাম্বী পুম্নমক মপু লাংথ্রোই চেক তৌবিয়ু',pri:'medium'},
+  {d:0,crop:'🌿 Chakhao',en:'Water seedling beds (morning)',mni:'অহানবা ওইগদৌরিবা পুম শিংহনবিয়ু',pri:'high'},
+  {d:1,crop:'🫛 Cardamom',en:'Apply organic fertilizer — 2kg/plot',mni:'এলাইচিগী পাম্দা জৈব সার ২ কেজি পুথোকবিয়ু',pri:'medium'},
+  {d:1,crop:'🫚 Ginger',en:'Check for fungal spots on leaves',mni:'মাকোলদা ফাংগস থীবা চেক তৌবিয়ু',pri:'high'},
+  {d:2,crop:'🫚 Ginger',en:'Soil pH testing — Plot B',mni:'প্লট B গী মপু pH পরীক্ষা তৌবিয়ু',pri:'low'},
+  {d:2,crop:'🌿 Chakhao',en:'Secure terrace bunds before rain',mni:'নুংশিৎ পাইগনি — মপাল লেপমদা পোক্নবিয়ু',pri:'high'},
+  {d:3,crop:'🫛 Cardamom',en:'Drone NDVI scan — Plot A',mni:'ড্রোনগী NDVI স্ক্যান — প্লট A',pri:'medium'},
+  {d:3,crop:'🫚 Ginger',en:'Neem-based pest spray (if no rain)',mni:'নুংশিৎ নত্তবা — নীম স্প্রে পায়োকবিয়ু',pri:'medium'},
+  {d:4,crop:'🌿 Chakhao',en:'Add lime to soil (0.5kg/plot)',mni:'মপুদা চুন ০.৫ কেজি পুথোকবিয়ু',pri:'medium'},
+  {d:4,crop:'🫛 Cardamom',en:'Mulching to retain moisture',mni:'মপু লাংথ্রোই লাকপা মালচিং তৌবিয়ু',pri:'low'},
+  {d:5,crop:'🫚 Ginger',en:'Irrigation check — adjust pump schedule',mni:'পাম্প শিডিউল চেক অমসুং এডজাস্ট তৌবিয়ু',pri:'medium'},
+  {d:6,crop:'🌿 Chakhao',en:'Weekly field walk — inspect all plots',mni:'পুম্নমক মফম অমা লৌমিন্নবা হল্লকবিয়ু',pri:'low'},
+];
+function getMondayOfWeek(d){
+  const dow=d.getDay();
+  const monday=new Date(d);
+  monday.setDate(d.getDate()-(dow===0?6:dow-1));
+  monday.setHours(0,0,0,0);
+  return monday;
+}
+function buildTaskTableInto(tbodyId,weekLabelId){
+  const tbody=document.getElementById(tbodyId);if(!tbody)return;
+  tbody.innerHTML='';
+  const now=new Date();
+  const monday=getMondayOfWeek(now);
+  const weekEnd=new Date(monday);weekEnd.setDate(monday.getDate()+6);
+  const wl=document.getElementById(weekLabelId);
+  if(wl){const fmt=d=>d.toLocaleDateString('en-IN',{day:'numeric',month:'short'});wl.textContent=fmt(monday)+' – '+fmt(weekEnd);}
+  const months=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+  const L=T[CL];
+  TASK_TEMPLATES.forEach((t,i)=>{
+    const taskDate=new Date(monday);taskDate.setDate(monday.getDate()+t.d);
+    const dateStr=taskDate.getDate()+' '+months[taskDate.getMonth()];
+    const isToday=taskDate.toDateString()===now.toDateString();
+    const isPast=taskDate<now&&!isToday;
+    const isDone=completedTasks.has(i);
+    const priMap={high:'badge-red',medium:'badge-gold',low:'badge-green'};
+    const priLabel={high:L.high,medium:L.medium,low:L.low};
+    const taskText=CL==='mni'?t.mni:t.en;
+    const tr=document.createElement('tr');
+    if(isToday)tr.style.cssText='background:rgba(76,175,80,0.07);';
+    if(isPast&&!isDone)tr.style.opacity='0.6';
+    tr.innerHTML=`
+      <td>${isToday?`<strong style="color:var(--gm)">📍 ${dateStr}</strong>`:dateStr}</td>
+      <td>${t.crop}</td>
+      <td style="max-width:220px">${isDone?`<s style="color:var(--tm)">${taskText}</s>`:taskText}
+        ${isToday?`<button onclick="speak('${taskText.replace(/'/g,"\\'")}') " style="background:none;border:none;cursor:pointer;font-size:13px;margin-left:4px">🔊</button>`:''}
+      </td>
+      <td><span class="badge ${priMap[t.pri]}">${priLabel[t.pri]}</span></td>
+      <td>${isDone?`<span style="color:#2e7d32;font-weight:700;font-size:12px">${L.done}</span>`:`<button class="btn-primary" style="padding:4px 11px;font-size:11px" onclick="markDone(${i})">${L.mark_done}</button>`}</td>`;
+    tbody.appendChild(tr);
+  });
+}
+function buildTaskTable(){buildTaskTableInto('tasks-tbody','week-range-label');}
+function buildTaskTable2(){buildTaskTableInto('tasks-tbody2','week-range-label2');}
+function markDone(idx){
+  completedTasks.add(idx);buildTaskTable();buildTaskTable2();
+  speak(CL==='mni'?'থাজরে। লায়েংবা তৌরে।':'Task marked as done. Well done!');
+}
+
+// =============================================
+// PUMP CONTROLS + BLYNK
+// =============================================
+const pumpState={pump1:false,pump2:true,pump3:false};
+const pumpInfo=[
+  {id:'pump1',label:'Pump 1 — Plot A (Cardamom)',info:'V1 · Soil: 61% · Threshold: 50%'},
+  {id:'pump2',label:'Pump 2 — Plot B (Ginger)',info:'V2 · Soil: 58% · Threshold: 55%'},
+  {id:'pump3',label:'Pump 3 — Plot C (Chakhao)',info:'V3 · Soil: 70% · Threshold: 60%'},
+];
+function buildPumpControls(){
+  const div=document.getElementById('pump-controls');if(!div)return;
+  div.innerHTML='';
+  pumpInfo.forEach(p=>{
+    const row=document.createElement('div');row.className='pump-control';
+    row.innerHTML=`<div class="pump-info">${p.label}<small>${p.info}</small></div><button class="toggle ${pumpState[p.id]?'on':''}" id="${p.id}" onclick="togglePump('${p.id}')"></button>`;
+    div.appendChild(row);
+  });
+}
+function togglePump(id){
+  pumpState[id]=!pumpState[id];
+  const btn=document.getElementById(id);
+  if(btn)btn.classList.toggle('on',pumpState[id]);
+  syncToBlynk(id,pumpState[id]);
+  speak(CL==='mni'?`পাম্প ${pumpState[id]?'ওন':'অফ'} তৌরে।`:`Pump turned ${pumpState[id]?'on':'off'}.`);
+  updateBlynkStatusPanel();
+}
+function blynkAllAuto(){
+  Object.keys(pumpState).forEach(id=>{pumpState[id]=false;const b=document.getElementById(id);if(b)b.classList.remove('on');});
+  buildPumpControls();
+  speak(CL==='mni'?'অটো-মোড ওন তৌরে। মপু লাংথ্রোইগী মতুংদা পাম্প চলগনি।':'Auto-mode enabled. Pumps will run based on soil moisture threshold.');
+  alert('Auto-irrigation enabled. Pumps will activate when soil moisture drops below threshold.');
+}
+let blynkToken='';
+let blynkServer='blynk.cloud';
+function saveBlynkConfig(){
+  blynkToken=document.getElementById('blynk-token').value.trim();
+  blynkServer=document.getElementById('blynk-server').value;
+  if(!blynkToken){alert('Please enter your Blynk Auth Token.');return;}
+  document.getElementById('blynk-status-txt').textContent='Blynk ✅';
+  updateBlynkStatusPanel();
+  speak(CL==='mni'?'ব্লিংক কানেক্ট তৌরে।':'Blynk connected successfully.');
+  setTimeout(()=>closeModal('blynk-modal'),800);
+}
+function syncToBlynk(pumpId,state){
+  const pinMap={pump1:'V1',pump2:'V2',pump3:'V3'};
+  const pin=pinMap[pumpId];
+  const now=new Date().toLocaleTimeString();
+  document.getElementById('blynk-last-sync').textContent='Last sync: '+now;
+  // Real sync: fetch(`https://${blynkServer}/external/api/update?token=${blynkToken}&${pin}=${state?1:0}`)
+  console.log(`Blynk sync: ${pin} = ${state?1:0}`);
+  updateBlynkStatusPanel();
+}
+function updateBlynkStatusPanel(){
+  const names={pump1:'Pump 1',pump2:'Pump 2',pump3:'Pump 3'};
+  ['pump1','pump2','pump3'].forEach((p,i)=>{
+    const el=document.getElementById('blynk-p'+(i+1)+'-status');
+    if(el)el.innerHTML=`<span style="color:${pumpState[p]?'#2e7d32':'#c62828'};font-weight:700">${pumpState[p]?'🟢 ON':'🔴 OFF'}</span>`;
+  });
+}
+function openBlynkPanel(){openModal('blynk-modal');updateBlynkStatusPanel();}
+function openBlynkWebApp(){
+  window.open('https://blynk.cloud','_blank');
+}
+
+// =============================================
+// SENSOR MODULES
+// =============================================
+let sensorModules=[
+  {id:1,type:'Soil Moisture',icon:'💧',version:'v1.3',plot:'Plot A',attached:true,reading:'61%',time:'just now'},
+  {id:2,type:'Temperature',icon:'🌡️',version:'v1.1',plot:'All Plots',attached:true,reading:'24°C',time:'just now'},
+  {id:3,type:'NDVI Camera',icon:'📷',version:'v2.0',plot:'Plot A',attached:true,reading:'NDVI: 0.72',time:'9:15 AM'},
+  {id:4,type:'pH Sensor',icon:'🌿',version:'v1.0',plot:'Plot B',attached:false,reading:'—',time:'—'},
+];
+let nextSensorId=5;
+function buildSensorModules(){
+  const grid=document.getElementById('sensor-modules-grid');if(!grid)return;
+  grid.innerHTML='';
+  sensorModules.forEach(s=>{
+    const div=document.createElement('div');div.className='sensor-module';
+    div.innerHTML=`
+      <div class="sensor-module-header">
+        <div class="sensor-module-name">${s.icon} ${s.type}</div>
+        <button class="attach-btn ${s.attached?'attached':'detached'}" onclick="toggleSensor(${s.id})">${s.attached?'Detach':'Attach'}</button>
+      </div>
+      <div style="font-size:11px;color:var(--tm);margin-bottom:4px">${s.version} · ${s.plot}</div>
+      <div class="sensor-module-reading">${s.attached?'Reading: <strong>'+s.reading+'</strong>':'Not connected'} ${s.attached?'<span class="badge badge-green" style="font-size:9px">✅ Active</span>':'<span class="badge badge-gold" style="font-size:9px">⚠️ Detached</span>'}</div>
+      <div style="margin-top:8px;display:flex;gap:6px">
+        <button onclick="deleteSensor(${s.id})" style="background:rgba(198,40,40,0.08);color:#c62828;border:1px solid rgba(198,40,40,0.15);padding:4px 9px;border-radius:8px;font-size:11px;cursor:pointer;font-family:'Nunito',sans-serif">🗑 Remove</button>
+      </div>`;
+    grid.appendChild(div);
+  });
+  buildSensorLog();
+}
+function toggleSensor(id){
+  const s=sensorModules.find(x=>x.id===id);if(!s)return;
+  s.attached=!s.attached;
+  if(s.attached)s.reading=s.type==='Soil Moisture'?'61%':s.type==='Temperature'?'24°C':s.type==='pH Sensor'?'6.2':s.type==='Humidity'?'72%':'Active';
+  else s.reading='—';
+  speak(CL==='mni'?`${s.type} সেন্সর ${s.attached?'এটাচ':'ডিটাচ'} তৌরে।`:`${s.type} sensor ${s.attached?'attached':'detached'}.`);
+  buildSensorModules();
+}
+function deleteSensor(id){
+  if(!confirm('Remove this sensor module?'))return;
+  sensorModules=sensorModules.filter(x=>x.id!==id);buildSensorModules();
+}
+function addSensor(){
+  const type=document.getElementById('new-sensor-type').value;
+  const version=document.getElementById('new-sensor-version').value||'v1.0';
+  const plot=document.getElementById('new-sensor-plot').value;
+  const iconMap={'Soil Moisture':'💧','Temperature':'🌡️','pH Sensor':'🌿','NDVI Camera':'📷','Humidity':'☁️','NPK Sensor':'🧪','CO2 Sensor':'🌬️','Leaf Wetness':'🍃'};
+  sensorModules.push({id:nextSensorId++,type,icon:iconMap[type]||'📡',version,plot,attached:true,reading:'Calibrating...',time:'just now'});
+  closeModal('add-sensor-modal');buildSensorModules();
+  speak(CL==='mni'?`${type} সেন্সর এড তৌরে।`:`${type} sensor added and attached.`);
+}
+function buildSensorLog(){
+  const tbody=document.getElementById('sensor-log-tbody');if(!tbody)return;
+  tbody.innerHTML='';
+  sensorModules.forEach(s=>{
+    const tr=document.createElement('tr');
+    tr.innerHTML=`<td>${s.icon} ${s.type}</td><td>${s.reading}</td><td>${s.time}</td><td>${s.attached?'<span class="badge badge-green">✅ Active</span>':'<span class="badge badge-gold">⚠️ Detached</span>'}</td>`;
+    tbody.appendChild(tr);
+  });
+}
+function droneCmd(cmd){
+  const msgs={
+    'Plot A':CL==='mni'?'ড্রোন প্লট A দা পথাং হৌরে।':'Drone heading to Plot A.',
+    'Plot B':CL==='mni'?'ড্রোন প্লট B দা পথাং হৌরে।':'Drone heading to Plot B.',
+    'Plot C':CL==='mni'?'ড্রোন প্লট C দা পথাং হৌরে।':'Drone heading to Plot C.',
+    'Full Scan':CL==='mni'?'পুম্নমক মফমগী স্ক্যান হৌরে।':'Starting full farm scan.',
+    'Home':CL==='mni'?'ড্রোন ঘরদা ইরকরি।':'Drone returning to home base.',
+  };
+  speak(msgs[cmd]||'Command sent.');
+}
+
+// =============================================
+// MARKET DATA — Agmarknet India crops
+// =============================================
+const MARKET_DATA=[
+  {name:'Cardamom',emoji:'🫛',price:1240,prev:1222,unit:'/kg',source:'Imphal Mandi'},
+  {name:'Ginger',emoji:'🫚',price:185,prev:189,unit:'/kg',source:'Imphal Mandi'},
+  {name:'Chakhao Rice',emoji:'🌿',price:320,prev:308,unit:'/kg',source:'Local Market'},
+  {name:'Onion',emoji:'🧅',price:42,prev:40,unit:'/kg',source:'Thoubal Mandi'},
+];
+function loadMarketData(){
+  const grid=document.getElementById('market-price-cards');if(!grid)return;
+  grid.innerHTML='';
+  const lbl=document.getElementById('market-last-update');
+  if(lbl)lbl.textContent='Updated: '+new Date().toLocaleTimeString();
+  MARKET_DATA.forEach(m=>{
+    const diff=m.price-m.prev;const up=diff>=0;
+    const card=document.createElement('div');card.className='sensor-card';
+    card.innerHTML=`
+      <div class="sensor-icon">${m.emoji}</div>
+      <div><span class="sensor-val" style="font-size:20px">₹${m.price.toLocaleString()}</span></div>
+      <div class="sensor-label">${m.name} ${m.unit}</div>
+      <div class="price-ticker" style="margin-top:5px">
+        <span class="price-change ${up?'up':'down'}">${up?'▲':'▼'} ₹${Math.abs(diff)} today</span>
+      </div>
+      <div style="font-size:10px;color:var(--tm);margin-top:4px">${m.source}</div>`;
+    grid.appendChild(card);
+  });
+}
+function postToMarket(){
+  const crop=document.getElementById('sell-crop').value;
+  const qty=document.getElementById('sell-qty').value;
+  if(!qty||qty<=0){alert('Please enter a valid quantity.');return;}
+  speak(CL==='mni'?`${crop} ${qty} কেজি বায়ার্সকী কাছদা পোস্ট তৌরে। ২৪ নুংদা বায়ার্সনা কনথোকগনি।`:`Listing posted. ${qty} kg of ${crop} sent to buyer network. Buyers will contact you within 24 hours.`);
+  alert(`✅ Listing posted!\n${qty} kg of ${crop}\nConnected to e-NAM & local buyers.\nExpect contact within 24 hours.`);
+}
+
+// =============================================
+// MODALS
+// =============================================
+function openModal(id){document.getElementById(id).classList.add('open');}
+function closeModal(id){document.getElementById(id).classList.remove('open');}
+document.addEventListener('click',e=>{
+  if(e.target.classList.contains('modal-overlay'))e.target.classList.remove('open');
+});
+
+// =============================================
+// RAIN DATA — Open-Meteo
+// =============================================
+const FARM_LAT=24.82,FARM_LON=93.95;
+function getRainColor(mm){
+  if(mm===0)return{bg:'#e8f5e9',border:'#c8e6c9',text:'#388e3c'};
+  if(mm<2.5)return{bg:'#e1f5fe',border:'#b3e5fc',text:'#0277bd'};
+  if(mm<7.6)return{bg:'#81d4fa',border:'#29b6f6',text:'#01579b'};
+  if(mm<15)return{bg:'#29b6f6',border:'#0288d1',text:'#fff'};
+  if(mm<35)return{bg:'#0277bd',border:'#01579b',text:'#fff'};
+  return{bg:'#01579b',border:'#003c8f',text:'#fff'};
+}
+function getRainIcon(mm){if(mm===0)return'☀️';if(mm<2.5)return'🌦️';if(mm<7.6)return'🌧️';if(mm<15)return'⛈️';return'🌩️';}
+function getRainAdvice(total,heavy,upcoming){
+  if(upcoming>20)return CL==='mni'?'⚠️ থোংজিন নুংশিৎ পাইগনি। মপাল লেপমদা পোক্নবিয়ু। সার পায়োকবা থামহনবিয়ু।':'⚠️ Heavy rainfall expected. Secure terrace bunds, delay fertilizer, and pause irrigation.';
+  if(upcoming>8)return CL==='mni'?'🌧️ নুংশিৎ পাইগনি। স্প্রে তৌরোইনবিয়ু।':'🌧️ Moderate rain coming. Hold off on sprays.';
+  return CL==='mni'?'✅ নুংশিৎ লৌআং নর্মেল। অটো-ইরিগেশন অপ্তিমাইজ তৌরে।':'✅ Rainfall within normal range. Auto-irrigation optimized.';
+}
+async function loadRainData(){
+  const rainList=document.getElementById('rain-list');if(!rainList)return;
+  rainList.innerHTML='<div class="loading"><div class="spinner"></div> '+(CL==='mni'?'লাইব নুংশিৎ ডেটা লোড তৌরি...':'Fetching live rainfall data...')+'</div>';
+  const rc=document.getElementById('rain-calendar');const rs=document.getElementById('rain-summary');const adv=document.getElementById('rain-farm-advice');const badge=document.getElementById('rain-source-badge');
+  if(rc)rc.style.display='none';if(rs)rs.style.display='none';if(adv)adv.style.display='none';
+  const now=new Date();const yr=now.getFullYear();const mo=now.getMonth();const today=now.getDate();
+  const ms=new Date(yr,mo,1);const me=new Date(yr,mo+1,0);
+  const fmt=d=>d.toISOString().split('T')[0];
+  const mnames=['January','February','March','April','May','June','July','August','September','October','November','December'];
+  const ml=document.getElementById('rain-month-label');if(ml)ml.textContent=mnames[mo]+' '+yr+' — Imphal';
+  try{
+    const res=await fetch(`https://api.open-meteo.com/v1/forecast?latitude=${FARM_LAT}&longitude=${FARM_LON}&daily=precipitation_sum&timezone=Asia%2FKolkata&start_date=${fmt(ms)}&end_date=${fmt(me)}`);
+    if(!res.ok)throw new Error('API '+res.status);
+    const data=await res.json();const dates=data.daily.time;const rains=data.daily.precipitation_sum;
+    if(badge)badge.style.display='inline-block';
+    // Calendar
+    if(rc){
+      rc.style.display='block';const cg=document.getElementById('rain-cal-grid');cg.innerHTML='';
+      ['Su','Mo','Tu','We','Th','Fr','Sa'].forEach(d=>{const h=document.createElement('div');h.style.cssText='font-size:9px;font-weight:700;color:var(--tm);text-align:center;padding:2px 0;';h.textContent=d;cg.appendChild(h);});
+      for(let i=0;i<ms.getDay();i++)cg.appendChild(document.createElement('div'));
+      dates.forEach((ds,idx)=>{
+        const dn=parseInt(ds.split('-')[2]);const mm=rains[idx]!==null?rains[idx]:0;const it=dn===today;const iF=dn>today;const col=getRainColor(mm);
+        const cell=document.createElement('div');cell.title=ds+': '+mm.toFixed(1)+' mm';
+        cell.style.cssText=`aspect-ratio:1;border-radius:4px;display:flex;flex-direction:column;align-items:center;justify-content:center;cursor:default;font-size:8px;font-weight:700;transition:transform 0.15s;background:${iF?`repeating-linear-gradient(45deg,${col.bg},${col.bg} 3px,#e3f2fd 3px,#e3f2fd 6px)`:col.bg};border:${it?'2px solid #4caf50':'1px solid '+col.border};color:${col.text};${it?'box-shadow:0 0 0 2px rgba(76,175,80,0.25);':''}`;
+        cell.innerHTML=`<span>${dn}</span><span style="font-size:7px;margin-top:1px">${mm>0?mm.toFixed(1):'—'}</span>`;
+        cell.addEventListener('mouseenter',()=>cell.style.transform='scale(1.18)');cell.addEventListener('mouseleave',()=>cell.style.transform='scale(1)');
+        cg.appendChild(cell);
+      });
+    }
+    // List
+    rainList.innerHTML='';const ti=dates.findIndex(d=>parseInt(d.split('-')[2])===today);
+    const ls=Math.max(0,ti-1);const ld=dates.slice(ls);const lr=rains.slice(ls);const mlr=Math.max(...lr.filter(r=>r!==null),0.1);
+    ld.forEach((ds,i)=>{
+      const mm=lr[i]!==null?lr[i]:0;const dn=parseInt(ds.split('-')[2]);const it2=dn===today;const iF=dn>today;
+      const dO=new Date(ds+'T12:00:00');const dn2=it2?(CL==='mni'?'অহানবা নুমিৎ':'Today'):(dn===today-1?(CL==='mni'?'তরেত্তা নুমিৎ':'Yesterday'):dO.toLocaleDateString('en-IN',{weekday:'short'}));
+      const bp=Math.min(100,(mm/Math.max(mlr,15))*100);const col=getRainColor(mm);
+      let tg='';
+      if(mm>15)tg=`<span class="badge badge-red" style="font-size:9px">⚠️ ${CL==='mni'?'থোংজিন':'Heavy'}</span>`;
+      else if(mm>7.5)tg=`<span class="badge badge-blue" style="font-size:9px">🌧️ ${CL==='mni'?'নর্মেল':'Moderate'}</span>`;
+      else if(mm>2.5)tg=`<span class="badge badge-blue" style="font-size:9px">🌦️ ${CL==='mni'?'মথৌ তাবা':'Light'}</span>`;
+      else if(mm>0)tg=`<span class="badge badge-green" style="font-size:9px">🌦️ Trace</span>`;
+      else tg=`<span class="badge badge-green" style="font-size:9px">☀️ ${CL==='mni'?'মাংগলোন':'Dry'}</span>`;
+      const row=document.createElement('div');row.className='rain-row';
+      if(it2)row.style.cssText='background:rgba(76,175,80,0.06);border-radius:8px;padding:8px 3px;margin:-3px;border-bottom:none!important;';
+      row.innerHTML=`<div style="min-width:88px"><div style="font-size:12px;font-weight:${it2?'800':'600'};color:${it2?'var(--gm)':'var(--td)'}">${getRainIcon(mm)} ${dn2}</div><div style="font-size:10px;color:var(--tm)">${ds.slice(5).replace('-','/')} ${iF?'🔮':''}</div></div><div class="rain-bar-wrap"><div class="progress-bar"><div class="progress-fill" style="width:${bp}%;background:${col.bg==='#e8f5e9'?'rgba(76,175,80,0.22)':col.bg};transition:width 0.8s"></div></div></div><div style="min-width:58px;text-align:right;display:flex;flex-direction:column;align-items:flex-end;gap:3px"><div class="rain-val" style="color:${mm>15?'#c62828':mm>7?'#0277bd':'var(--td)'}">${mm.toFixed(1)} mm</div>${tg}</div>`;
+      rainList.appendChild(row);
+    });
+    // Summary
+    const allMm=rains.filter(r=>r!==null);const total=allMm.reduce((a,b)=>a+b,0);const heavy=allMm.filter(r=>r>15).length;const dry=allMm.filter(r=>r<0.5).length;
+    const upc=dates.slice(ti,ti+5).reduce((s,_,i)=>s+(rains[ti+i]||0),0);
+    const rts=document.getElementById('rain-total');const rhs=document.getElementById('rain-heavy-days');const rds=document.getElementById('rain-dry-days');const rat=document.getElementById('rain-advice-text');
+    if(rts)rts.textContent=total.toFixed(1);if(rhs)rhs.textContent=heavy;if(rds)rds.textContent=dry;if(rat)rat.textContent=getRainAdvice(total,heavy,upc);
+    if(rs)rs.style.display='block';
+    if(adv){adv.style.display='flex';adv.className='alert-card '+(upc>20?'ac-bad':upc>8?'ac-warn':'ac-good');adv.style.cssText='margin-top:11px;margin-bottom:0;display:flex';}
+  }catch(err){
+    if(rainList)rainList.innerHTML=`<div class="alert-card ac-warn"><div class="ai">⚠️</div><div><p>Could not fetch live data (${err.message}). Check internet and retry.</p></div></div>`;
+  }
+}
+
+// =============================================
+// AI CHAT
+// =============================================
+const BOT={
+  pest:{en:'🌿 Spray neem oil solution (5ml/litre) every 7 days. For cardamom thrips, use yellow sticky traps. Avoid spraying before rain.',mni:'🌿 কীট তম্বগীদমক নীম তেল (৫ মিলি/লিটার) ৭ নুমিৎতোমবা স্প্রে তৌবিয়ু। নুংশিৎ মতমদা স্প্রে তৌরোইনবিয়ু।'},
+  irrigat:{en:'💧 Soil moisture at 61%. You can wait 6 more hours. Plot B Ginger at 58% should be irrigated in 2–3 hours.',mni:'💧 মপু লাংথ্রোই ৬১%। মনি ৬ চুক্লগা ইরিগেশন তৌলোই। প্লট B দা মনি ২-৩ তক পানীহনবিয়ু।'},
+  fertilizer:{en:'🌱 For cardamom: compost 5kg/plant + NPK 10-26-26 at flowering stage. Avoid urea on hilly plots.',mni:'🌱 এলাইচিগীদমক কম্পোস্ট ৫ কেজি + NPK ১০-২৬-২৬ পুথোকবিয়ু। লাংমাংদা ইউরিয়া ব্যবহার তৌরোইনবিয়ু।'},
+  rain:{en:'🌧️ Check the Irrigation page for live April 2026 rainfall data from Open-Meteo API.',mni:'🌧️ ইরিগেশন পেজদা এপ্রিল ২০২৬গী লাইব নুংশিৎ ডেটা চেক তৌবিয়ু।'},
+  yield:{en:'📈 Improve yield: (1) Keep pH 5.5–6.5, (2) Mulching, (3) Organic compost, (4) Drone NDVI monitoring for early disease detection.',mni:'📈 ফলদান চাউথোকপগীদমক: (১) pH ৫.৫-৬.৫ ফাউহনবিয়ু, (২) মালচিং, (৩) জৈব সার, (৪) ড্রোন NDVI স্ক্যান।'},
+  cardamom:{en:'🫛 Cardamom at ₹1,240/kg trending up. Hold stock 3–5 days. Ensure 70% humidity and partial shade.',mni:'🫛 এলাইচি ₹১,২৪০/কেজি — মূল্য চাউথোকরি। নুমিৎ ৩-৫ চুক্লগা শায়গনি। লাংথ্রোই ৭০% ফাউহনবিয়ু।'},
+  blynk:{en:'📱 Blynk integration: Click the Blynk button in the topbar. Enter your Auth Token from the Blynk app. Virtual pins V1=Pump1, V2=Pump2, V3=Pump3.',mni:'📱 ব্লিংক: টপবারদা ব্লিংক বাটন ক্লিক তৌবিয়ু। Auth Token পুথোকবিয়ু। V1=পাম্প১, V2=পাম্প২, V3=পাম্প৩।'},
+  default:{en:'🤖 Analyzing your farm data... Monitor soil moisture and check weather before spray activities. Need a detailed report?',mni:'🤖 নহাক্কী খোঙথাং ডেটা চেক তৌরিসি। মপু লাংথ্রোই অমসুং ওয়েদার ফোর্কাস্ট মনোংশিনবিয়ু।'},
+};
+function getResponse(msg){
+  const m=msg.toLowerCase();
+  for(const k of['pest','irrigat','fertilizer','rain','yield','cardamom','blynk'])if(m.includes(k))return BOT[k][CL];
+  return BOT.default[CL];
+}
+function sendChat(){
+  const inp=document.getElementById('chat-input');const msg=inp.value.trim();if(!msg)return;
+  addMsg(msg,'user');inp.value='';
+  addMsg('<div class="loading"><div class="spinner"></div> '+(CL==='mni'?'চিন্থনরিসি...':'Thinking...')+'</div>','bot');
+  setTimeout(()=>{
+    const msgs=document.getElementById('chat-messages');const last=msgs.querySelector('.msg-bot:last-child');if(last)last.remove();
+    const reply=getResponse(msg);addMsg(reply,'bot');
+    speak(reply.replace(/[🌿💧🌱🌧️📈🫛🏛️🤖📱]/g,''));
+  },900);
+}
+function sendQuickMsg(msg){
+  document.getElementById('chat-input').value=msg;
+  showPage('aiassist',null);
+  document.querySelectorAll('.nav-item').forEach((n,i)=>{if(i===6)n.classList.add('active');else n.classList.remove('active');});
+  setTimeout(sendChat,100);
+}
+function addMsg(text,type){
+  const msgs=document.getElementById('chat-messages');const div=document.createElement('div');div.className='msg msg-'+type;div.innerHTML=text;msgs.appendChild(div);msgs.scrollTop=msgs.scrollHeight;
+}
+
+// =============================================
+// INIT
+// =============================================
+window.addEventListener('load',()=>{
+  window.speechSynthesis.onvoiceschanged=()=>{};
+  buildCropsGrid();buildTaskTable();buildTaskTable2();buildPumpControls();buildSensorModules();loadMarketData();
+  setTimeout(loadRainData,800);
+  updateBlynkStatusPanel();
+});
+</script>
+</div></body></html>

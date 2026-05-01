@@ -176,3 +176,19 @@ images/
 ## Note
 
 This project was part of Smart India Hackathon 2025 and involved both hardware implementation and system-level design for real-world agricultural problems.
+
+---
+
+## 💻 Web Dashboard Code
+
+The frontend for the dashboard is included in the repository.
+
+Location:
+web_dashboard/
+
+Technologies:
+- HTML
+- CSS
+- JavaScript
+
+This dashboard is designed to visualize sensor data in a clean and user-friendly way.

@@ -99,3 +99,10 @@ images/
 ## Note
 
 This project was part of Smart India Hackathon 2025 and involved both hardware implementation and system-level design for real-world agricultural problems.
+
+## 📸 Project Image
+
+---
+
+### Real-time Monitoring using Blynk App
+![Agro System](images/agro_system.jpg)

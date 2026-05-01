@@ -165,11 +165,14 @@ images/
 
 ---
 
-## 📸 Project Image
+## 📸 Project Images
 
 ### Real-time Monitoring using Blynk and Web Dashboard
-
 ![Agro System](images/agro_system.jpg)
+
+### Web Dashboard Interface
+![Dashboard](images/web_dashboard.png)
+
 
 ---
 
@@ -189,3 +192,15 @@ Location:
 web_dashboard/index.html
 
 It provides a clean interface for monitoring sensor data, alerts, and environmental conditions.
+
+
+---
+
+
+## 🏆 Smart India Hackathon 2025
+
+Our team **Team Electrominds** qualified through all 3 internal rounds of Smart India Hackathon 2025 (Hardware category).
+
+Certificate of participation:
+
+![SIH Certificate](docs/sih_certificate.jpg)
